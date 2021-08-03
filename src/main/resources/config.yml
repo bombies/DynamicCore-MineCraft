@@ -4,4 +4,13 @@
 # Made by: bombies
 ################################################
 
-database_name: 'db'
+# Database Info
+deaths_database_name: 'deaths'
+
+# General Plugin Info
+max_items_per_page: 10
+chat_format: '&e%player% &8» &f%any%'
+
+# Deaths
+deaths_top_format: '&f&l%any%. &b%player% &f- &e(%deaths% deaths)' # MUST use %any%, %player% and %deaths% ONLY
+

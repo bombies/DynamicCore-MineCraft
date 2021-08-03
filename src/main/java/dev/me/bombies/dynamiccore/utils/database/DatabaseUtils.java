@@ -5,6 +5,7 @@ import dev.me.bombies.dynamiccore.constants.PLUGIN;
 import dev.me.bombies.dynamiccore.constants.TABLES;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -63,5 +64,11 @@ public class DatabaseUtils {
             }
             case DIRECTORY -> throw new IllegalArgumentException("Invalid database enum!");
         }
+    }
+
+    @SneakyThrows
+    public void closeConnection(DATABASES db) {
+        this.getCon().close();
+        System.out.println(PLUGIN.PREFIX + "Successfully closed connection to: "+ db.toString());
     }
 }

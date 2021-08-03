@@ -2,7 +2,8 @@ package dev.me.bombies.dynamiccore.constants;
 
 public enum PLUGIN {
     NAME("DynamicCore"),
-    PREFIX("["+ NAME +"] ");
+    PREFIX("["+ NAME +"] "),
+    PLACEHOLDER_SYMBOL("%");
 
     private final String str;
 

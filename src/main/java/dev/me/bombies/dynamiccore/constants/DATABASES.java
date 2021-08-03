@@ -1,8 +1,10 @@
 package dev.me.bombies.dynamiccore.constants;
 
+import dev.me.bombies.dynamiccore.utils.plugin.PluginUtils;
+
 public enum DATABASES {
     DIRECTORY("/"+PLUGIN.NAME+"/databases"),
-    DEATHS("deaths.db");
+    DEATHS(PluginUtils.getStringFromConfig(CONFIG.DEATHS_DB_NAME));
 
     private final String str;
 

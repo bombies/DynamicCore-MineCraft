@@ -4,3 +4,16 @@ main: dev.me.bombies.dynamiccore.DynamicCore
 api-version: 1.17
 prefix: DynamicCore
 authors: [ bombies ]
+description: DynamicCore made by bombies
+commands:
+  deathstop:
+    description: The users with the top deaths on the server
+    usage: /<command> [page]
+    aliases: [td]
+  suicide:
+    description: Kill youself using this command
+    usage: /<command>
+    aliases: [kms]
+  dyncore:
+    description: The command to control the DynamicCore plugin
+    usage: /<command> <subcommand> [args...]

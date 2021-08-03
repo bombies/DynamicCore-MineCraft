@@ -10,8 +10,11 @@ public class DeathCounterEvent implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
         DeathCounterUtils utils = new DeathCounterUtils();
-        utils.incrementDeathCount(e.getEntity().getUniqueId().toString());
-        e.setDeathMessage("lol "+e.getEntity().getName()+" died. ("+utils.getDeathCount(e.getEntity().getUniqueId().toString())+" deaths)");
+        try {
+            utils.incrementDeathCount(e.getEntity().getUniqueId().toString());
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
         utils.closeConnection();
     }
 }
