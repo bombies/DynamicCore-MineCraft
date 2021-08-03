@@ -1,0 +1,6 @@
+name: DynamicCore
+version: ${project.version}
+main: dev.me.bombies.dynamiccore.DynamicCore
+api-version: 1.17
+prefix: DynamicCore
+authors: [ bombies ]
