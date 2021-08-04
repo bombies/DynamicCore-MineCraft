@@ -3,6 +3,7 @@ package dev.me.bombies.dynamiccore.utils.Pagination;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -51,14 +52,17 @@ public class PaginationUtils {
         else if (map.size() > 0 && map.size() <= maxPerPage)
             pagesReq = 1;
 
-        int lastIndex = 0;
+        int lastIndex = map.size()-1;
         for (int page = 0; page < pagesReq; page++) {
             Page pg = new Page();
-            for (int i = 0; i < maxPerPage && lastIndex < map.size(); i++) {
-                Player p = Bukkit.getPlayer((UUID) uuids.toArray()[i]);
-//                pg.addLine( (i+1) + " ." + p.getName() + " - " + map.get(uuids.toArray()[i]));
-                pg.addLine(GeneralUtils.formatString(format, i+1, p, map.get(uuids.toArray()[i])));
-                lastIndex++;
+            for (int i = 0; i < maxPerPage && lastIndex >= 0; i++) {
+                Player p = Bukkit.getPlayer((UUID) uuids.toArray()[lastIndex]);
+                if (p == null) {
+                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer((UUID) uuids.toArray()[lastIndex]);
+                    pg.addLine(GeneralUtils.formatString(format, i+1, offlinePlayer, map.get(uuids.toArray()[lastIndex])));
+                } else
+                    pg.addLine(GeneralUtils.formatString(format, i+1, p, map.get(uuids.toArray()[lastIndex])));
+                lastIndex--;
             }
             ret.add(pg);
         }

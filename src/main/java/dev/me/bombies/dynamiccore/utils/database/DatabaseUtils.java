@@ -62,6 +62,18 @@ public class DatabaseUtils {
                         ");";
                 statement.execute(sql);
             }
+            case HOMES -> {
+                Statement statement = con.createStatement();
+                String sql = "CREATE TABLE " + TABLES.PLAYER_HOMES + "(" +
+                        " uuid TEXT," +
+                        " home_name TEXT UNIQUE," +
+                        " world_name TEXT," +
+                        " x_coordinate INTEGER, " +
+                        " y_coordinate INTEGER, " +
+                        " z_coordinate INTEGER " +
+                        ");";
+                statement.execute(sql);
+            }
             case DIRECTORY -> throw new IllegalArgumentException("Invalid database enum!");
         }
     }

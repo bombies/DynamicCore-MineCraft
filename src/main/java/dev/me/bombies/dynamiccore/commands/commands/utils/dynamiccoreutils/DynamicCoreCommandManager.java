@@ -1,7 +1,10 @@
 package dev.me.bombies.dynamiccore.commands.commands.utils.dynamiccoreutils;
 
 import dev.me.bombies.dynamiccore.commands.commands.IDynamicCommand;
+import dev.me.bombies.dynamiccore.constants.Permissions;
+import dev.me.bombies.dynamiccore.utils.GeneralUtils;
 import lombok.Getter;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,6 +26,11 @@ public class DynamicCoreCommandManager implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
+
+            if (!GeneralUtils.hasPerms(p, Permissions.ADMIN)) {
+                p.sendMessage(ChatColor.RED + "You do not have permission to execute this command!");
+                return true;
+            }
 
             if (args.length == 0) {
                 p.sendMessage("Help menu");

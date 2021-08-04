@@ -17,3 +17,21 @@ commands:
   dyncore:
     description: The command to control the DynamicCore plugin
     usage: /<command> <subcommand> [args...]
+  enderchest:
+    description: Access your enderchest from anywhere!
+    usage: /<command>
+    aliases: [ec]
+  godmode:
+    description: Be invincible.
+    usage: /<command>
+    aliases: [god]
+  home:
+    description: Teleport to your homes
+    usage: /<command> [home]
+    aliases: [homes]
+  sethome:
+    description: Set a home to easily teleport to whenever
+    usage: /<command> <name>
+  delhome:
+    description: Delete a home that was set
+    usage: /<command> <name>

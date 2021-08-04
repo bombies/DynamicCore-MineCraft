@@ -2,15 +2,22 @@ package dev.me.bombies.dynamiccore.utils;
 
 import dev.me.bombies.dynamiccore.constants.PLACEHOLDERS;
 import dev.me.bombies.dynamiccore.constants.PLUGIN;
+import dev.me.bombies.dynamiccore.constants.Permissions;
 import lombok.NonNull;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
 
 public class GeneralUtils {
+    public static boolean hasPerms(Player p, Permissions perm) {
+        return p.hasPermission(perm.toString());
+    }
+
     public static boolean stringIsInt(String str) {
         try {
             Integer.parseInt(str);
@@ -33,7 +40,7 @@ public class GeneralUtils {
             placeholders.add(p.toString());
 
         int placeHolderIndex = 0;
-        for (int i = 0; i < split.length; i++) {
+        for (int i = 0; i < split.length && placeHolderIndex < formatSpecifiers.length; i++) {
             if (split[i].contains(PLUGIN.PLACEHOLDER_SYMBOL.toString())) {
                 String placeHolderExtract;
                 try {
@@ -44,29 +51,25 @@ public class GeneralUtils {
                 if (placeholders.contains(placeHolderExtract)) {
                     PLACEHOLDERS p = PLACEHOLDERS.parseString(placeHolderExtract);
                     switch (p) {
-                        case PLAYER -> {
-                            if (Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex) instanceof Player) {
-                                Player player = (Player) Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex);
-                                split[i] = split[i].replaceAll(placeHolderExtract, player.getName());
-                            }
-                        }
-                        case TARGET -> {
-                            if (Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex) instanceof Player) {
-                                Player player = (Player) Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex);
-                                split[i] = split[i].replaceAll(placeHolderExtract, player.getName());
+                        case PLAYER, TARGET -> {
+                            if (Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex) instanceof Player player) {
+                                split[i] = getValidString(split[i].replace(placeHolderExtract, player.getName()));
+                            } else if (Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex) instanceof OfflinePlayer player) {
+                                split[i] = getValidString(split[i].replace(placeHolderExtract, player.getName()));
                             }
                         }
                         case DEATHS -> {
                             if (Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex) instanceof Integer) {
-                                split[i] = split[i].replaceAll(
+                                split[i] = split[i].replace(
                                         placeHolderExtract,
-                                        String.valueOf(Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex))
+                                        getValidString(String.valueOf(Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex)))
                                 );
                             }
                         }
-                        case WILDCARD -> split[i] = split[i].replaceAll(
+                        case WILDCARD -> split[i] = split[i].replace(
                                 placeHolderExtract,
-                                Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex).toString()
+                                getValidString(Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex).toString()
+                                )
                         );
                     }
                     placeHolderIndex++;
@@ -88,4 +91,9 @@ public class GeneralUtils {
 
         return s.substring(s.indexOf(PLUGIN.PLACEHOLDER_SYMBOL.toString()), s.lastIndexOf(PLUGIN.PLACEHOLDER_SYMBOL.toString())+1);
     }
+
+    public static String getValidString(String s) {
+        return s.replaceAll("%", "%%");
+    }
 }
+

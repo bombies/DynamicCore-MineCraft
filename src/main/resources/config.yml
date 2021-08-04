@@ -1,11 +1,12 @@
 ################################################
 # DynamicCore Config
-# Version: 0.0.1
+# Version: 0.0.4
 # Made by: bombies
 ################################################
 
 # Database Info
 deaths_database_name: 'deaths'
+homes_database_name: 'homes'
 
 # General Plugin Info
 max_items_per_page: 10
