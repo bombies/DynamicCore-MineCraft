@@ -1,6 +1,6 @@
 ################################################
 # DynamicCore Config
-# Version: 0.0.4
+# Version: 0.0.10
 # Made by: bombies
 ################################################
 
@@ -9,9 +9,41 @@ deaths_database_name: 'deaths'
 homes_database_name: 'homes'
 
 # General Plugin Info
+prefix: '&b&l>> '
 max_items_per_page: 10
 chat_format: '&e%player% &8» &f%any%'
+ping_format: '&fYour ping is &a%ping%ms'
+ping_format_others: "&e%player%'s ping is &a%ping%ms"
+no_permission: '&cYou do not have permission to execute this command'
 
 # Deaths
-deaths_top_format: '&f&l%any%. &b%player% &f- &e(%deaths% deaths)' # MUST use %any%, %player% and %deaths% ONLY
+deaths_top_header: '&e&m------------- &6&lTop Deaths &f( %page% / %max_page% ) &e&m-------------'
+deaths_top_format: '&f&l%any%. &b%player% &f- &e(%deaths% deaths)' # MUST use %any%, %player% and %deaths%
+deaths_top_footer: '&e&m--------------------------------------'
 
+# Snowball Gun
+snowball_gun_name: '&f&lSnowball Gun'
+snowball_gun_lore:
+  - '&8&m-------------------------------'
+  - '&6&l◌ &eRight click to rain snow fire on your enemies!'
+  - '&8&m-------------------------------'
+
+# Bazooka
+bazooka_name: '&4&lBazooka'
+bazooka_lore:
+  - '&8&m-------------------------------'
+  - '&4&l◌ &c&lWEAPON OF MASS DESTRUCTION'
+  - '&8&m-------------------------------'
+bazooka_damage_radius: 10.0 # Radius of blocks to be blown up
+bazooka_cooldown: 10 # In seconds
+bazooka_cooldown_message: '&fYou must wait &e%cooldown% &fseconds before using the bazooka again!'
+
+
+######### PLACEHOLDERS #########
+# %player%    - The name of a player
+# %deaths%    - Total number of deaths for a player
+# %page%      - Current page
+# %page%      - Max amount of pages
+# %cooldown%  - The amount of seconds left before something can be done again
+# %any%       - Any variable
+################################

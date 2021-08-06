@@ -34,9 +34,18 @@ public class DeathTopCommand implements CommandExecutor {
         if (args.length == 0) {
             if (information.isEmpty())
                 p.sendMessage(ChatColor.RED + "There is no information yet!");
-            else
+            else {
+                p.sendMessage(ChatColor.translateAlternateColorCodes(
+                        '&',
+                        GeneralUtils.formatString(PluginUtils.getStringFromConfig(CONFIG.DEATHS_TOP_HEADER), 1, information.size())
+                ));
                 for (String s : information.get(0).getInformation())
                     p.sendMessage(s);
+                p.sendMessage(ChatColor.translateAlternateColorCodes(
+                        '&',
+                        PluginUtils.getStringFromConfig(CONFIG.DEATHS_TOP_FOOTER)
+                ));
+            }
         } else {
             if (!GeneralUtils.stringIsInt(args[0])) {
                 p.sendMessage(ChatColor.RED + "Invalid argument!");
@@ -53,12 +62,24 @@ public class DeathTopCommand implements CommandExecutor {
             }
 
             if (page > information.size()) {
+                p.sendMessage(ChatColor.translateAlternateColorCodes(
+                        '&',
+                        GeneralUtils.formatString(PluginUtils.getStringFromConfig(CONFIG.DEATHS_TOP_HEADER), information.size(), information.size())
+                ));
                 for (String s : information.get(information.size()-1).getInformation())
                     p.sendMessage(s);
             } else {
+                p.sendMessage(ChatColor.translateAlternateColorCodes(
+                        '&',
+                        GeneralUtils.formatString(PluginUtils.getStringFromConfig(CONFIG.DEATHS_TOP_HEADER), page, information.size())
+                ));
                 for (String s : information.get(page-1).getInformation())
                     p.sendMessage(s);
             }
+            p.sendMessage(ChatColor.translateAlternateColorCodes(
+                    '&',
+                    PluginUtils.getStringFromConfig(CONFIG.DEATHS_TOP_FOOTER)
+            ));
         }
 
         utils.closeConnection();

@@ -11,7 +11,20 @@ public enum Permissions {
     GODMODE_OTHERS(GODMODE + ".others"),
 
     HOME(MAIN_NODE + "home"),
-    HOME_OTHERS(HOME + ".others");
+    HOME_OTHERS(HOME + ".others"),
+
+    TRASH(MAIN_NODE + "trash"),
+
+    BAZOOKA_COOLDOWN_BYPASS(MAIN_NODE + "bazooka.bypasscooldown"),
+
+    BACK(MAIN_NODE + "back"),
+
+    INVENTORY_SEE(MAIN_NODE + "invsee"),
+    INVENTORY_SEE_INTERACT(INVENTORY_SEE + ".interact"),
+
+    WORKBENCH(MAIN_NODE + "workbench"),
+
+    COLORED_ANVIL(MAIN_NODE + "anvilcolor");
 
     private final String str;
 

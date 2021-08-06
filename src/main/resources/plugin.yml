@@ -35,3 +35,25 @@ commands:
   delhome:
     description: Delete a home that was set
     usage: /<command> <name>
+  givesnowballgun:
+    description: Give a player a snowball gun
+    usage: /<command> <player>
+  trash:
+    description: Open up a trash to dispose of items
+    usage: /<command>
+  givebazooka:
+    description: Give a player a bazooka
+    usage: /<command> <player>
+  back:
+    description: Teleport to your last death location
+    usage: /<command>
+  invsee:
+    description: Opens the inventory of any player
+    usage: /<command> <player>
+  workbench:
+    description: Opens a crafting table anywhere
+    usage: /<command>
+    aliases: [wb, craft]
+  ping:
+    description: Get your ping to the server
+    usage: /<command> [player]

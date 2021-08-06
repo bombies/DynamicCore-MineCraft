@@ -4,7 +4,11 @@ public enum PLACEHOLDERS {
     PLAYER("%player%"),
     TARGET("%target%"),
     DEATHS("%deaths%"),
-    WILDCARD("%any%");
+    WILDCARD("%any%"),
+    PAGE("%page%"),
+    MAX_PAGE("%max_page%"),
+    COOLDOWN("%cooldown%"),
+    PING("%ping%");
 
     private String str;
 
@@ -26,6 +30,14 @@ public enum PLACEHOLDERS {
             return PLACEHOLDERS.DEATHS;
         else if (str.equals(PLACEHOLDERS.WILDCARD.toString()))
             return PLACEHOLDERS.WILDCARD;
+        else if (str.equals(PLACEHOLDERS.PAGE.toString()))
+            return PLACEHOLDERS.PAGE;
+        else if (str.equals(PLACEHOLDERS.MAX_PAGE.toString()))
+            return PLACEHOLDERS.MAX_PAGE;
+        else if (str.equals(PLACEHOLDERS.COOLDOWN.toString()))
+            return PLACEHOLDERS.COOLDOWN;
+        else if (str.equals(PLACEHOLDERS.PING.toString()))
+            return PLACEHOLDERS.PING;
         throw new NullPointerException("Invalid enum \""+str+"\"");
     }
 }

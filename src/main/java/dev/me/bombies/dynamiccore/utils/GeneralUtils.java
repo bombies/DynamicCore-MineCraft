@@ -6,16 +6,22 @@ import dev.me.bombies.dynamiccore.constants.Permissions;
 import lombok.NonNull;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 
 public class GeneralUtils {
     public static boolean hasPerms(Player p, Permissions perm) {
         return p.hasPermission(perm.toString());
+    }
+
+    public static boolean hasPerms(CommandSender s, Permissions perm) {
+        return s.hasPermission(perm.toString());
     }
 
     public static boolean stringIsInt(String str) {
@@ -58,12 +64,19 @@ public class GeneralUtils {
                                 split[i] = getValidString(split[i].replace(placeHolderExtract, player.getName()));
                             }
                         }
-                        case DEATHS -> {
+                        case PAGE, MAX_PAGE, DEATHS, COOLDOWN, PING  -> {
                             if (Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex) instanceof Integer) {
                                 split[i] = split[i].replace(
                                         placeHolderExtract,
-                                        getValidString(String.valueOf(Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex)))
+                                        getValidString((String.valueOf(Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex))))
                                 );
+                            } else if (Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex) instanceof String) {
+                                if (GeneralUtils.stringIsInt((String) Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex))) {
+                                    split[i] = split[i].replace(
+                                            placeHolderExtract,
+                                            getValidString(((String) Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex)))
+                                    );
+                                }
                             }
                         }
                         case WILDCARD -> split[i] = split[i].replace(
@@ -83,6 +96,24 @@ public class GeneralUtils {
         return sb.toString();
     }
 
+//    public static String newFormatString(@NonNull String str, Object... formatSpecifiers) {
+//        if (formatSpecifiers.length == 0)
+//            return str;
+//
+//        String colorCodedString = ChatColor.translateAlternateColorCodes('&', str);
+//
+//        List<PLACEHOLDERS> placeholdersEnumList = Arrays.stream(PLACEHOLDERS.values()).toList();
+//        List<String> placeholders = new ArrayList<>();
+//        for (PLACEHOLDERS p : placeholdersEnumList)
+//            placeholders.add(p.toString());
+//
+//        for (PLACEHOLDERS p : PLACEHOLDERS.values()) {
+//            switch (p) {
+//                case PLAYER ->
+//            }
+//        }
+//    }
+
     public static String extractPlaceHolder(String s) {
         String str = s.replaceAll("[^"+ PLUGIN.PLACEHOLDER_SYMBOL +"]", "");
 
@@ -95,5 +126,20 @@ public class GeneralUtils {
     public static String getValidString(String s) {
         return s.replaceAll("%", "%%");
     }
+
+    public static String toSnakeCase(String s) {
+        String[] split = s.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (String str : split)
+            sb.append(String.valueOf(str.charAt(0)).toUpperCase()).append(str.substring(1).toLowerCase()).append(" ");
+        return sb.toString();
+    }
+
+//    private static int getPlaceholderCount(String s) {
+//        String placeHolderUUID = UUID.randomUUID().toString();
+//        String str = s.replaceAll("%[a-zA-Z]*%", placeHolderUUID);
+//        s.all
+//        return str.length();
+//    }
 }
 

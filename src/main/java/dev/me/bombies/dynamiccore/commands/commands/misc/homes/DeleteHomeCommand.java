@@ -28,7 +28,7 @@ public class DeleteHomeCommand implements CommandExecutor {
 
             try {
                 utils.removeHome(p.getUniqueId().toString(), args[0]);
-                p.sendMessage(ChatColor.GREEN + "Home set!");
+                p.sendMessage(ChatColor.GREEN + "You have deleted your "+args[0].toLowerCase()+" home!");
             } catch (NullPointerException e) {
                 p.sendMessage(ChatColor.RED + "You have no homes called '"+args[0]+"'!");
             } catch (Exception e) {
