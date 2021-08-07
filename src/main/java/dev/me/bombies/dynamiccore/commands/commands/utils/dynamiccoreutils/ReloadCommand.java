@@ -2,7 +2,7 @@ package dev.me.bombies.dynamiccore.commands.commands.utils.dynamiccoreutils;
 
 import dev.me.bombies.dynamiccore.DynamicCore;
 import dev.me.bombies.dynamiccore.commands.commands.IDynamicCommand;
-import dev.me.bombies.dynamiccore.constants.CONFIG;
+import dev.me.bombies.dynamiccore.constants.Config;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -25,7 +25,7 @@ public class ReloadCommand implements IDynamicCommand {
     @Override
     public void perform(Player player, String[] args) {
         if (!player.isOp() || !player.hasPermission("dc.reload")) {
-            player.sendMessage(CONFIG.getColouredString(CONFIG.NO_PERMISSION));
+            player.sendMessage(Config.getColouredString(Config.NO_PERMISSION));
             return;
         }
 

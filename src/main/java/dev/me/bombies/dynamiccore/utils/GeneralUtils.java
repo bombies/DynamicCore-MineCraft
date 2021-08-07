@@ -1,19 +1,20 @@
 package dev.me.bombies.dynamiccore.utils;
 
-import dev.me.bombies.dynamiccore.constants.PLACEHOLDERS;
+import dev.me.bombies.dynamiccore.constants.Placeholders;
 import dev.me.bombies.dynamiccore.constants.PLUGIN;
 import dev.me.bombies.dynamiccore.constants.Permissions;
 import lombok.NonNull;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
-import java.util.regex.Matcher;
 
 public class GeneralUtils {
     public static boolean hasPerms(Player p, Permissions perm) {
@@ -40,9 +41,9 @@ public class GeneralUtils {
         String colorCodedString = ChatColor.translateAlternateColorCodes('&', str);
         String[] split = colorCodedString.split(" ");
 
-        List<PLACEHOLDERS> placeholdersEnumList = Arrays.stream(PLACEHOLDERS.values()).toList();
+        List<Placeholders> placeholdersEnumList = Arrays.stream(Placeholders.values()).toList();
         List<String> placeholders = new ArrayList<>();
-        for (PLACEHOLDERS p : placeholdersEnumList)
+        for (Placeholders p : placeholdersEnumList)
             placeholders.add(p.toString());
 
         int placeHolderIndex = 0;
@@ -55,7 +56,7 @@ public class GeneralUtils {
                     continue;
                 }
                 if (placeholders.contains(placeHolderExtract)) {
-                    PLACEHOLDERS p = PLACEHOLDERS.parseString(placeHolderExtract);
+                    Placeholders p = Placeholders.parseString(placeHolderExtract);
                     switch (p) {
                         case PLAYER, TARGET -> {
                             if (Arrays.stream(formatSpecifiers).toList().get(placeHolderIndex) instanceof Player player) {
@@ -96,24 +97,6 @@ public class GeneralUtils {
         return sb.toString();
     }
 
-//    public static String newFormatString(@NonNull String str, Object... formatSpecifiers) {
-//        if (formatSpecifiers.length == 0)
-//            return str;
-//
-//        String colorCodedString = ChatColor.translateAlternateColorCodes('&', str);
-//
-//        List<PLACEHOLDERS> placeholdersEnumList = Arrays.stream(PLACEHOLDERS.values()).toList();
-//        List<String> placeholders = new ArrayList<>();
-//        for (PLACEHOLDERS p : placeholdersEnumList)
-//            placeholders.add(p.toString());
-//
-//        for (PLACEHOLDERS p : PLACEHOLDERS.values()) {
-//            switch (p) {
-//                case PLAYER ->
-//            }
-//        }
-//    }
-
     public static String extractPlaceHolder(String s) {
         String str = s.replaceAll("[^"+ PLUGIN.PLACEHOLDER_SYMBOL +"]", "");
 
@@ -135,11 +118,13 @@ public class GeneralUtils {
         return sb.toString();
     }
 
-//    private static int getPlaceholderCount(String s) {
-//        String placeHolderUUID = UUID.randomUUID().toString();
-//        String str = s.replaceAll("%[a-zA-Z]*%", placeHolderUUID);
-//        s.all
-//        return str.length();
-//    }
+    public static int getEmptySlots(Inventory inventory) {
+        ItemStack[] content = inventory.getContents();
+        int count = 0;
+        for (ItemStack item : content)
+            if (item == null || item.getType().equals(Material.AIR))
+                count++;
+        return count;
+    }
 }
 

@@ -1,6 +1,6 @@
 package dev.me.bombies.dynamiccore.commands.commands.misc;
 
-import dev.me.bombies.dynamiccore.constants.CONFIG;
+import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.Permissions;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
 import org.bukkit.Bukkit;
@@ -18,7 +18,7 @@ public class TrashCommand implements CommandExecutor {
         }
 
         if (!GeneralUtils.hasPerms(p, Permissions.TRASH)) {
-            p.sendMessage(CONFIG.getColouredString(CONFIG.NO_PERMISSION));
+            p.sendMessage(Config.getColouredString(Config.NO_PERMISSION));
             return true;
         }
 

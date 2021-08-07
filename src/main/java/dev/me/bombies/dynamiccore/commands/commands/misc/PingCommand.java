@@ -1,6 +1,6 @@
 package dev.me.bombies.dynamiccore.commands.commands.misc;
 
-import dev.me.bombies.dynamiccore.constants.CONFIG;
+import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,7 +18,7 @@ public class PingCommand implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            p.sendMessage(CONFIG.getPrefix() + GeneralUtils.formatString(CONFIG.getString(CONFIG.PING_FORMAT), p.getPing()));
+            p.sendMessage(Config.getPrefix() + GeneralUtils.formatString(Config.getString(Config.PING_FORMAT), p.getPing()));
         } else {
             Player target = Bukkit.getPlayerExact(args[0]);
 
@@ -27,7 +27,7 @@ public class PingCommand implements CommandExecutor {
                 return true;
             }
 
-            p.sendMessage(CONFIG.getPrefix() + GeneralUtils.formatString(CONFIG.getString(CONFIG.PING_FORMAT), target, p.getPing()));
+            p.sendMessage(Config.getPrefix() + GeneralUtils.formatString(Config.getString(Config.PING_FORMAT), target, p.getPing()));
         }
 
         return true;

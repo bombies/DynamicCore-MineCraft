@@ -57,3 +57,6 @@ commands:
   ping:
     description: Get your ping to the server
     usage: /<command> [player]
+  skills:
+    description: Command to access the skills GUI
+    usage: /<command>

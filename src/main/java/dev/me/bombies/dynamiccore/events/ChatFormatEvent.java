@@ -1,14 +1,14 @@
 package dev.me.bombies.dynamiccore.events;
 
-import dev.me.bombies.dynamiccore.constants.CONFIG;
+import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
 import dev.me.bombies.dynamiccore.utils.plugin.PluginUtils;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +17,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ public class ChatFormatEvent implements Listener {
 
     @EventHandler
     public void onPlayerChatEvent(AsyncPlayerChatEvent e) {
-        String format = GeneralUtils.formatString(PluginUtils.getStringFromConfig(CONFIG.CHAT_FORMAT), e.getPlayer(), e.getMessage());
+        String format = GeneralUtils.formatString(PluginUtils.getStringFromConfig(Config.CHAT_FORMAT), e.getPlayer(), e.getMessage());
 
         if (!format.contains(itemFormat))
             e.setFormat(format);
@@ -46,9 +45,12 @@ public class ChatFormatEvent implements Listener {
 
         String displayName;
 
-        if (itemInHand.getItemMeta().hasDisplayName())
+        if (itemInHand.getType().equals(Material.AIR))
+            displayName = "&b&o" + p.getName() + "'s hand";
+        else if (itemInHand.getItemMeta().hasDisplayName())
             displayName = itemInHand.getItemMeta().getDisplayName();
-        else displayName = "&b&o" + GeneralUtils.toSnakeCase(itemInHand.getType().name().replaceAll("_", " "));
+        else
+            displayName = "&b&o" + GeneralUtils.toSnakeCase(itemInHand.getType().name().replaceAll("_", " "));
 
         TextComponent ret = new TextComponent(ChatColor.translateAlternateColorCodes(
                 '&', displayName + " &f&lx" + itemInHand.getAmount() + "&r"

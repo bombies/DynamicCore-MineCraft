@@ -1,7 +1,7 @@
 package dev.me.bombies.dynamiccore.commands.commands.misc.bazooka;
 
 import de.tr7zw.nbtapi.NBTItem;
-import dev.me.bombies.dynamiccore.constants.CONFIG;
+import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.NBTTags;
 import dev.me.bombies.dynamiccore.constants.Permissions;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
@@ -20,7 +20,7 @@ public class BazookaCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!GeneralUtils.hasPerms(sender, Permissions.ADMIN)) {
-            sender.sendMessage(CONFIG.getColouredString(CONFIG.NO_PERMISSION));
+            sender.sendMessage(Config.getColouredString(Config.NO_PERMISSION));
             return true;
         }
 
@@ -43,11 +43,11 @@ public class BazookaCommand implements CommandExecutor {
         bazooka = bazookaNBT.getItem();
 
         ItemMeta bazookaMeta = bazooka.getItemMeta();
-        final String gunName = CONFIG.getColouredString(CONFIG.BAZOOKA_NAME);
+        final String gunName = Config.getColouredString(Config.BAZOOKA_NAME);
 
 
         bazookaMeta.setDisplayName(gunName);
-        bazookaMeta.setLore(CONFIG.getLore(CONFIG.BAZOOKA_LORE));
+        bazookaMeta.setLore(Config.getLore(Config.BAZOOKA_LORE));
         bazookaMeta.setUnbreakable(true);
 
         bazooka.setItemMeta(bazookaMeta);

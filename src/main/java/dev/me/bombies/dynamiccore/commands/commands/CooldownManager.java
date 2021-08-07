@@ -1,13 +1,13 @@
 package dev.me.bombies.dynamiccore.commands.commands;
 
-import dev.me.bombies.dynamiccore.constants.CONFIG;
+import dev.me.bombies.dynamiccore.constants.Config;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 public class CooldownManager {
     private HashMap<UUID, Long> cooldowns = new HashMap<>();
-    public static int BAZOOKA_COOLDOWN = CONFIG.getInt(CONFIG.BAZOOKA_COOLDOWN);
+    public static int BAZOOKA_COOLDOWN = Config.getInt(Config.BAZOOKA_COOLDOWN);
 
     public void setCooldown(UUID uuid, long time) {
         if (time == 0)

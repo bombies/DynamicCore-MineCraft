@@ -1,6 +1,6 @@
 package dev.me.bombies.dynamiccore.commands.commands.misc;
 
-import dev.me.bombies.dynamiccore.constants.CONFIG;
+import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.Permissions;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
 import org.bukkit.command.Command;
@@ -17,7 +17,7 @@ public class WorkBenchCommand implements CommandExecutor {
         }
 
         if (!GeneralUtils.hasPerms(player, Permissions.WORKBENCH)) {
-            player.sendMessage(CONFIG.getColouredString(CONFIG.NO_PERMISSION));
+            player.sendMessage(Config.getColouredString(Config.NO_PERMISSION));
             return false;
         }
 

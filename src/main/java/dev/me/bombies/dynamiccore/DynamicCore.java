@@ -6,6 +6,8 @@ import dev.me.bombies.dynamiccore.commands.commands.misc.bazooka.BazookaEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.DeleteHomeCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.HomeCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.SetHomeCommand;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.SkillsCommand;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guievents.MainGUIEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.snowballgun.SnowBallGunCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.snowballgun.SnowBallGunEvents;
 import dev.me.bombies.dynamiccore.commands.commands.utils.dynamiccoreutils.DynamicCoreCommandManager;
@@ -27,7 +29,8 @@ public final class DynamicCore extends JavaPlugin {
                 new PatchEvents(),
                 new SnowBallGunEvents(),
                 new BazookaEvents(),
-                new AnvilViewEvents()
+                new AnvilViewEvents(),
+                new MainGUIEvents()
         );
 
         getCommand("deathstop").setExecutor(new DeathTopCommand());
@@ -45,6 +48,7 @@ public final class DynamicCore extends JavaPlugin {
         getCommand("invsee").setExecutor(new InventorySeeCommand());
         getCommand("workbench").setExecutor(new WorkBenchCommand());
         getCommand("ping").setExecutor(new PingCommand());
+        getCommand("skills").setExecutor(new SkillsCommand());
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();

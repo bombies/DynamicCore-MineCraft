@@ -1,8 +1,7 @@
 package dev.me.bombies.dynamiccore.utils.database;
 
-import dev.me.bombies.dynamiccore.constants.DATABASES;
-import dev.me.bombies.dynamiccore.constants.PLUGIN;
-import dev.me.bombies.dynamiccore.constants.TABLES;
+import dev.me.bombies.dynamiccore.constants.Databases;
+import dev.me.bombies.dynamiccore.constants.Tables;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,13 +17,13 @@ import java.util.stream.Collectors;
 public class DeathCounterUtils extends DatabaseUtils implements IDeathCounterUtils {
 
     public DeathCounterUtils() {
-        super(DATABASES.DEATHS);
+        super(Databases.DEATHS);
     }
 
     @SneakyThrows
     private void addUser(String uuid) {
         Statement statement = this.getCon().createStatement();
-        String sql = "INSERT INTO " + TABLES.PLAYER_DEATHS + " VALUES( '"+uuid+"', 0 )";
+        String sql = "INSERT INTO " + Tables.PLAYER_DEATHS + " VALUES( '"+uuid+"', 0 )";
         statement.executeUpdate(sql);
     }
 
@@ -36,14 +35,14 @@ public class DeathCounterUtils extends DatabaseUtils implements IDeathCounterUti
         int newCount = getDeathCount(uuid)+1;
 
         Statement statement = this.getCon().createStatement();
-        String sql = "UPDATE " + TABLES.PLAYER_DEATHS + " SET count="+newCount+" WHERE uuid='"+uuid+"';";
+        String sql = "UPDATE " + Tables.PLAYER_DEATHS + " SET count="+newCount+" WHERE uuid='"+uuid+"';";
         statement.executeUpdate(sql);
     }
 
     @SneakyThrows
     public int getDeathCount(String uuid) {
         Statement statement = this.getCon().createStatement();
-        String sql = "SELECT * FROM " + TABLES.PLAYER_DEATHS + " WHERE uuid='"+uuid+"';";
+        String sql = "SELECT * FROM " + Tables.PLAYER_DEATHS + " WHERE uuid='"+uuid+"';";
         ResultSet resultSet = statement.executeQuery(sql);
         while (resultSet.next())
             return resultSet.getInt("count");
@@ -54,7 +53,7 @@ public class DeathCounterUtils extends DatabaseUtils implements IDeathCounterUti
     private HashMap<UUID, Integer> getPlayerMap() {
         HashMap<UUID, Integer> ret = new HashMap<>();
         Statement dbStat = getCon().createStatement();
-        String sql = "SELECT * FROM " + TABLES.PLAYER_DEATHS + ";";
+        String sql = "SELECT * FROM " + Tables.PLAYER_DEATHS + ";";
         ResultSet dbRes = dbStat.executeQuery(sql);
 
         while (dbRes.next())
@@ -84,6 +83,6 @@ public class DeathCounterUtils extends DatabaseUtils implements IDeathCounterUti
     }
 
     public void closeConnection() {
-        super.closeConnection(DATABASES.DEATHS);
+        super.closeConnection(Databases.DEATHS);
     }
 }

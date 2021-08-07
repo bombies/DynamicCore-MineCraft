@@ -1,7 +1,7 @@
 package dev.me.bombies.dynamiccore.utils.database;
 
-import dev.me.bombies.dynamiccore.constants.DATABASES;
-import dev.me.bombies.dynamiccore.constants.TABLES;
+import dev.me.bombies.dynamiccore.constants.Databases;
+import dev.me.bombies.dynamiccore.constants.Tables;
 import dev.me.bombies.dynamiccore.utils.plugin.Coordinates;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class HomeUtils extends DatabaseUtils {
 
     public HomeUtils() {
-        super(DATABASES.HOMES);
+        super(Databases.HOMES);
     }
 
     /**
@@ -32,11 +32,11 @@ public class HomeUtils extends DatabaseUtils {
         Statement dbStat = getCon().createStatement();
         String sql;
         if (hasHome(uuid, home.toLowerCase())) {
-            sql = "UPDATE " + TABLES.PLAYER_HOMES +
+            sql = "UPDATE " + Tables.PLAYER_HOMES +
                     " SET x_coordinate="+loc.getBlockX()+" , y_coordinate="+loc.getBlockY()+" , z_coordinate="+loc.getBlockZ()+" " +
                     " WHERE uuid='"+uuid+"' AND home_name='"+home.toLowerCase()+"';";
         } else
-            sql = "INSERT INTO " + TABLES.PLAYER_HOMES + " VALUES(" +
+            sql = "INSERT INTO " + Tables.PLAYER_HOMES + " VALUES(" +
                 "'"+uuid+"'," +
                 " '"+home.toLowerCase()+"'," +
                 " '"+loc.getWorld().getName()+"'," +
@@ -58,7 +58,7 @@ public class HomeUtils extends DatabaseUtils {
             throw new NullPointerException("The player with uuid "+uuid+" doesn't have any homes called "+home);
 
         Statement dbStat = getCon().createStatement();
-        String sql = "DELETE FROM " + TABLES.PLAYER_HOMES + " WHERE uuid='"+uuid+"' AND home_name='"+home.toLowerCase()+"';";
+        String sql = "DELETE FROM " + Tables.PLAYER_HOMES + " WHERE uuid='"+uuid+"' AND home_name='"+home.toLowerCase()+"';";
         dbStat.executeUpdate(sql);
     }
 
@@ -87,7 +87,7 @@ public class HomeUtils extends DatabaseUtils {
         List<String> ret = new ArrayList<>();
 
         Statement dbStat = getCon().createStatement();
-        String sql = "SELECT home_name FROM " + TABLES.PLAYER_HOMES + " WHERE uuid='"+uuid+"';";
+        String sql = "SELECT home_name FROM " + Tables.PLAYER_HOMES + " WHERE uuid='"+uuid+"';";
         ResultSet dbRes = dbStat.executeQuery(sql);
 
         while (dbRes.next())
@@ -123,7 +123,7 @@ public class HomeUtils extends DatabaseUtils {
             throw new NullPointerException("The user with uuid '"+uuid+"' has no home called '"+home.toLowerCase()+"'.");
 
         Statement dbStat = getCon().createStatement();
-        String sql = "SELECT world_name FROM " + TABLES.PLAYER_HOMES + " WHERE uuid='"+uuid+"';";
+        String sql = "SELECT world_name FROM " + Tables.PLAYER_HOMES + " WHERE uuid='"+uuid+"';";
         ResultSet dbRes = dbStat.executeQuery(sql);
 
         while (dbRes.next())
@@ -143,7 +143,7 @@ public class HomeUtils extends DatabaseUtils {
             throw new NullPointerException("The user with uuid '"+uuid+"' has no home called '"+home.toLowerCase()+"'.");
 
         Statement dbStat = getCon().createStatement();
-        String sql = "SELECT * FROM " +  TABLES.PLAYER_HOMES + " WHERE uuid='"+uuid+"' AND home_name='"+home.toLowerCase()+"';";
+        String sql = "SELECT * FROM " +  Tables.PLAYER_HOMES + " WHERE uuid='"+uuid+"' AND home_name='"+home.toLowerCase()+"';";
         ResultSet dbRes = dbStat.executeQuery(sql);
 
         while (dbRes.next())
@@ -164,7 +164,7 @@ public class HomeUtils extends DatabaseUtils {
     @SneakyThrows
     public int getHomeCount(String uuid) {
         Statement dbStat = getCon().createStatement();
-        String sql = "SELECT * FROM " + TABLES.PLAYER_HOMES + " WHERE uuid='"+uuid+"'";
+        String sql = "SELECT * FROM " + Tables.PLAYER_HOMES + " WHERE uuid='"+uuid+"'";
         ResultSet dbRes = dbStat.executeQuery(sql);
 
         int count = 0;
@@ -200,6 +200,6 @@ public class HomeUtils extends DatabaseUtils {
      * Closes the database connection
      */
     public void closeConnection() {
-        super.closeConnection(DATABASES.HOMES);
+        super.closeConnection(Databases.HOMES);
     }
 }

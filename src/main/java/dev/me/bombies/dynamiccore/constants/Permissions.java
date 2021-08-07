@@ -1,5 +1,7 @@
 package dev.me.bombies.dynamiccore.constants;
 
+import org.bukkit.inventory.Inventory;
+
 public enum Permissions {
     MAIN_NODE("dc."),
 
@@ -24,7 +26,9 @@ public enum Permissions {
 
     WORKBENCH(MAIN_NODE + "workbench"),
 
-    COLORED_ANVIL(MAIN_NODE + "anvilcolor");
+    COLORED_ANVIL(MAIN_NODE + "anvilcolor"),
+
+    SELF_GIVE(MAIN_NODE + "self_give");
 
     private final String str;
 
@@ -36,4 +40,6 @@ public enum Permissions {
     public String toString() {
         return str;
     }
+
+
 }

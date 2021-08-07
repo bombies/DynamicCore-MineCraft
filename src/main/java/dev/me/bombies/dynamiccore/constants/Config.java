@@ -2,11 +2,12 @@ package dev.me.bombies.dynamiccore.constants;
 
 import dev.me.bombies.dynamiccore.utils.plugin.PluginUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public enum CONFIG {
+public enum Config {
     // Database Info
     DEATHS_DB_NAME("deaths_database_name"),
     HOMES_DB_NAME("homes_database_name"),
@@ -33,11 +34,25 @@ public enum CONFIG {
     BAZOOKA_LORE("bazooka_lore"),
     BAZOOKA_DMG_RADIUS("bazooka_damage_radius"),
     BAZOOKA_COOLDOWN("bazooka_cooldown"),
-    BAZOOKA_COOLDOWN_MSG("bazooka_cooldown_message");
+    BAZOOKA_COOLDOWN_MSG("bazooka_cooldown_message"),
+
+    // Skills Info
+    SKILLS_GUI_NAME("skills_gui_name"),
+    SKILLS_GUI_SIZE("skills_gui_size"),
+    SKILLS_MINING_NAME("mining_item_name"),
+    SKILLS_MINING_LORE("mining_item_lore"),
+    SKILLS_MINING_MATERIAL("mining_item_material"),
+    SKILLS_GRINDING_NAME("grinding_item_name"),
+    SKILLS_GRINDING_LORE("grinding_item_lore"),
+    SKILLS_GRINDING_MATERIAL("grinding_item_material"),
+    SKILLS_FARMING_NAME("farming_item_name"),
+    SKILLS_FARMING_LORE("farming_item_lore"),
+    SKILLS_FARMING_MATERIAL("farming_item_material"),
+    SKILLS_ITEM_SLOTS("item_slots");
 
     private final String str;
 
-    CONFIG(String str) {
+    Config(String str) {
         this.str = str;
     }
 
@@ -46,39 +61,47 @@ public enum CONFIG {
         return str;
     }
 
-    public static String getString(CONFIG field) {
+    public static String getString(Config field) {
         return PluginUtils.getStringFromConfig(field);
     }
 
-    public static String getColouredString(CONFIG field) {
+    public static String getColouredString(Config field) {
         return ChatColor.translateAlternateColorCodes('&', getString(field));
     }
 
     public static String getPrefix() {
-        return getColouredString(CONFIG.PREFIX);
+        return getColouredString(Config.PREFIX);
     }
 
-    public static int getInt(CONFIG field) {
+    public static String getNoPermissionMessage() {
+        return getColouredString(Config.NO_PERMISSION);
+    }
+
+    public static Material getMaterial(Config field) {
+        return Material.matchMaterial(getString(field));
+    }
+
+    public static int getInt(Config field) {
         return PluginUtils.getIntFromConfig(field);
     }
 
-    public static boolean getBoolean(CONFIG field) {
+    public static boolean getBoolean(Config field) {
         return PluginUtils.getBoolFromConfig(field);
     }
 
-    public static long getLong(CONFIG field) {
+    public static long getLong(Config field) {
         return PluginUtils.getLongFromConfig(field);
     }
 
-    public static double getDouble(CONFIG field) {
+    public static double getDouble(Config field) {
         return PluginUtils.getDoubleFromConfig(field);
     }
 
-    public static float getFloat(CONFIG field) {
+    public static float getFloat(Config field) {
         return (float) getDouble(field);
     }
 
-    public static List<String> getLore(CONFIG field) {
+    public static List<String> getLore(Config field) {
         List<String> ret = new ArrayList<>();
         for (String s : getStringList(field))
             ret.add(ChatColor.translateAlternateColorCodes(
@@ -87,11 +110,11 @@ public enum CONFIG {
         return ret;
     }
 
-    public static List<String> getStringList(CONFIG field) {
+    public static List<String> getStringList(Config field) {
         return PluginUtils.getStringListFromConfig(field);
     }
 
-    public static List<Integer> getIntList(CONFIG field) {
+    public static List<Integer> getIntList(Config field) {
         return PluginUtils.getIntListFromConfig(field);
     }
 

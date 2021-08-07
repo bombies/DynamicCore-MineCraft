@@ -1,7 +1,6 @@
 package dev.me.bombies.dynamiccore.commands.commands.misc;
 
-import dev.me.bombies.dynamiccore.DynamicCore;
-import dev.me.bombies.dynamiccore.constants.CONFIG;
+import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
 import dev.me.bombies.dynamiccore.utils.Pagination.Page;
 import dev.me.bombies.dynamiccore.utils.Pagination.PaginationUtils;
@@ -16,7 +15,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class DeathTopCommand implements CommandExecutor {
-    final int maxPerPage = PluginUtils.getIntFromConfig(CONFIG.PAGE_MAX_ITEMS);
+    final int maxPerPage = PluginUtils.getIntFromConfig(Config.PAGE_MAX_ITEMS);
 
 
     @Override
@@ -29,7 +28,7 @@ public class DeathTopCommand implements CommandExecutor {
         final Player p = (Player) sender;
         final DeathCounterUtils utils = new DeathCounterUtils();
 
-        List<Page> information = PaginationUtils.paginate(utils.getSortedPlayerMap(), maxPerPage, PluginUtils.getStringFromConfig(CONFIG.DEATHS_TOP_FORMAT));
+        List<Page> information = PaginationUtils.paginate(utils.getSortedPlayerMap(), maxPerPage, PluginUtils.getStringFromConfig(Config.DEATHS_TOP_FORMAT));
 
         if (args.length == 0) {
             if (information.isEmpty())
@@ -37,13 +36,13 @@ public class DeathTopCommand implements CommandExecutor {
             else {
                 p.sendMessage(ChatColor.translateAlternateColorCodes(
                         '&',
-                        GeneralUtils.formatString(PluginUtils.getStringFromConfig(CONFIG.DEATHS_TOP_HEADER), 1, information.size())
+                        GeneralUtils.formatString(PluginUtils.getStringFromConfig(Config.DEATHS_TOP_HEADER), 1, information.size())
                 ));
                 for (String s : information.get(0).getInformation())
                     p.sendMessage(s);
                 p.sendMessage(ChatColor.translateAlternateColorCodes(
                         '&',
-                        PluginUtils.getStringFromConfig(CONFIG.DEATHS_TOP_FOOTER)
+                        PluginUtils.getStringFromConfig(Config.DEATHS_TOP_FOOTER)
                 ));
             }
         } else {
@@ -64,21 +63,21 @@ public class DeathTopCommand implements CommandExecutor {
             if (page > information.size()) {
                 p.sendMessage(ChatColor.translateAlternateColorCodes(
                         '&',
-                        GeneralUtils.formatString(PluginUtils.getStringFromConfig(CONFIG.DEATHS_TOP_HEADER), information.size(), information.size())
+                        GeneralUtils.formatString(PluginUtils.getStringFromConfig(Config.DEATHS_TOP_HEADER), information.size(), information.size())
                 ));
                 for (String s : information.get(information.size()-1).getInformation())
                     p.sendMessage(s);
             } else {
                 p.sendMessage(ChatColor.translateAlternateColorCodes(
                         '&',
-                        GeneralUtils.formatString(PluginUtils.getStringFromConfig(CONFIG.DEATHS_TOP_HEADER), page, information.size())
+                        GeneralUtils.formatString(PluginUtils.getStringFromConfig(Config.DEATHS_TOP_HEADER), page, information.size())
                 ));
                 for (String s : information.get(page-1).getInformation())
                     p.sendMessage(s);
             }
             p.sendMessage(ChatColor.translateAlternateColorCodes(
                     '&',
-                    PluginUtils.getStringFromConfig(CONFIG.DEATHS_TOP_FOOTER)
+                    PluginUtils.getStringFromConfig(Config.DEATHS_TOP_FOOTER)
             ));
         }
 

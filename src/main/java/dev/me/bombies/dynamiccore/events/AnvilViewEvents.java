@@ -28,6 +28,8 @@ public class AnvilViewEvents implements Listener {
 
         ItemMeta resultMeta = result.getItemMeta();
 
+        if (resultMeta == null) return;
+
         resultMeta.setDisplayName(colorCodedText);
         result.setItemMeta(resultMeta);
 

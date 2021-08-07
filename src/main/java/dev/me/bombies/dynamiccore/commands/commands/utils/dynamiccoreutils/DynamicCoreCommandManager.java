@@ -1,7 +1,7 @@
 package dev.me.bombies.dynamiccore.commands.commands.utils.dynamiccoreutils;
 
 import dev.me.bombies.dynamiccore.commands.commands.IDynamicCommand;
-import dev.me.bombies.dynamiccore.constants.CONFIG;
+import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.Permissions;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
 import lombok.Getter;
@@ -28,7 +28,7 @@ public class DynamicCoreCommandManager implements CommandExecutor {
             Player p = (Player) sender;
 
             if (!GeneralUtils.hasPerms(p, Permissions.ADMIN)) {
-                p.sendMessage(CONFIG.getColouredString(CONFIG.NO_PERMISSION));
+                p.sendMessage(Config.getColouredString(Config.NO_PERMISSION));
                 return true;
             }
 

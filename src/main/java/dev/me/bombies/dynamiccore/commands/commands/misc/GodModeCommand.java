@@ -1,6 +1,6 @@
 package dev.me.bombies.dynamiccore.commands.commands.misc;
 
-import dev.me.bombies.dynamiccore.constants.CONFIG;
+import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.Permissions;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
 import org.bukkit.Bukkit;
@@ -55,6 +55,6 @@ public class GodModeCommand implements CommandExecutor {
                 p.setInvulnerable(true);
                 p.sendMessage(ChatColor.GREEN + "God mode toggled on.");
             }
-        } else p.sendMessage(CONFIG.getColouredString(CONFIG.NO_PERMISSION));
+        } else p.sendMessage(Config.getColouredString(Config.NO_PERMISSION));
     }
 }

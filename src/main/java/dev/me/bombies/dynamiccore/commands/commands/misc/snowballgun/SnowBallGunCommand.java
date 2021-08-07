@@ -1,11 +1,10 @@
 package dev.me.bombies.dynamiccore.commands.commands.misc.snowballgun;
 
 import de.tr7zw.nbtapi.NBTItem;
-import dev.me.bombies.dynamiccore.constants.CONFIG;
+import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.NBTTags;
 import dev.me.bombies.dynamiccore.constants.Permissions;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
-import dev.me.bombies.dynamiccore.utils.plugin.PluginUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -17,15 +16,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SnowBallGunCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (!GeneralUtils.hasPerms(sender, Permissions.ADMIN)) {
-            sender.sendMessage(CONFIG.getColouredString(CONFIG.NO_PERMISSION));
+            sender.sendMessage(Config.getColouredString(Config.NO_PERMISSION));
             return true;
         }
 
@@ -48,11 +44,11 @@ public class SnowBallGunCommand implements CommandExecutor {
         snowballGun = snowBallGunNBT.getItem();
 
         ItemMeta snowBallGunMeta = snowballGun.getItemMeta();
-        final String gunName = CONFIG.getColouredString(CONFIG.SNOWBALL_GUN_NAME);
+        final String gunName = Config.getColouredString(Config.SNOWBALL_GUN_NAME);
 
 
         snowBallGunMeta.setDisplayName(gunName);
-        snowBallGunMeta.setLore(CONFIG.getLore(CONFIG.SNOWBALL_GUN_LORE));
+        snowBallGunMeta.setLore(Config.getLore(Config.SNOWBALL_GUN_LORE));
         snowBallGunMeta.setUnbreakable(true);
 
         snowballGun.setItemMeta(snowBallGunMeta);

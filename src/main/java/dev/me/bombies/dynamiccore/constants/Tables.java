@@ -1,6 +1,6 @@
 package dev.me.bombies.dynamiccore.constants;
 
-public enum TABLES {
+public enum Tables {
     // deaths.db
     PLAYER_DEATHS("player_deaths"),
 
@@ -9,7 +9,7 @@ public enum TABLES {
 
     private final String str;
 
-    TABLES(String str) {
+    Tables(String str) {
         this.str = str;
     }
 

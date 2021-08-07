@@ -1,6 +1,6 @@
 ################################################
 # DynamicCore Config
-# Version: 0.0.10
+# Version: 0.0.11
 # Made by: bombies
 ################################################
 
@@ -38,6 +38,35 @@ bazooka_damage_radius: 10.0 # Radius of blocks to be blown up
 bazooka_cooldown: 10 # In seconds
 bazooka_cooldown_message: '&fYou must wait &e%cooldown% &fseconds before using the bazooka again!'
 
+###### Skills ######
+# MAIN GUI INFORMATION
+skills_gui_name: '&c&lSkills'
+skills_gui_size: 27
+mining_item_name: '&4&lMining'
+mining_item_lore:
+  - '&8&m-------------------------------'
+  - '&4&l◌ &cClick here to access'
+  - '&cthe roadmap for the mining skill'
+  - '&8&m-------------------------------'
+mining_item_material: 'NETHERITE_PICKAXE'
+grinding_item_name: '&6&lGrinding'
+grinding_item_lore:
+  - '&8&m-------------------------------'
+  - '&6&l◌ &eClick here to access'
+  - '&ethe roadmap for the grinding skill'
+  - '&8&m-------------------------------'
+grinding_item_material: 'NETHERITE_SWORD'
+farming_item_name: '&a&lFarming'
+farming_item_lore:
+  - '&8&m-------------------------------'
+  - '&2&l◌ &aClick here to access'
+  - '&athe roadmap for the farming skill'
+  - '&8&m-------------------------------'
+farming_item_material: 'NETHERITE_HOE'
+item_slots: # 3 slots MUST be provided
+  - 11
+  - 13
+  - 15
 
 ######### PLACEHOLDERS #########
 # %player%    - The name of a player
