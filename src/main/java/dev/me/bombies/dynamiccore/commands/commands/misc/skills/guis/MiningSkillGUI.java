@@ -10,12 +10,13 @@ import org.bukkit.inventory.Inventory;
 public class MiningSkillGUI {
 
     public MiningSkillGUI(Player player) {
+        int playerLevel = SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING);
         Inventory roadMap = GUIBuilder.buildRoadMap(
                 GUIs.SKILLS_MINING,
                 player,
                 GUIs.SKILLS_MINING.toString(),
-                0,
-                SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING),
+                SkillsGUICommand.getSeriesIndex(playerLevel),
+                playerLevel,
                 Tables.SKILLS_MINING
         ).build();
 

@@ -6,6 +6,9 @@ import dev.me.bombies.dynamiccore.commands.commands.misc.bazooka.BazookaEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.DeleteHomeCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.HomeCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.SetHomeCommand;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.commands.SetSkillLevelCommand;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.events.FarmingEvents;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.events.GrindingEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.events.MiningEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guievents.MiningGUIEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guis.SkillsGUICommand;
@@ -35,7 +38,9 @@ public final class DynamicCore extends JavaPlugin {
                 new AnvilViewEvents(),
                 new MainGUIEvents(),
                 new MiningGUIEvents(),
-                new MiningEvents()
+                new MiningEvents(),
+                new GrindingEvents(),
+                new FarmingEvents()
         );
 
         getCommand("deathstop").setExecutor(new DeathTopCommand());
@@ -54,6 +59,7 @@ public final class DynamicCore extends JavaPlugin {
         getCommand("workbench").setExecutor(new WorkBenchCommand());
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("skills").setExecutor(new SkillsGUICommand());
+        getCommand("setskilllevel").setExecutor(new SetSkillLevelCommand());
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();

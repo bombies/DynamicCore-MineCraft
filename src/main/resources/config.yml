@@ -69,14 +69,26 @@ item_slots: # 3 slots MUST be provided
   - 13
   - 15
 
-# MINING GUI INFORMATION
+# MINING INFORMATION
 mining_gui_name: '&4&lMining'
+mining_scale_base_amount: 50
+mining_scale_increase_amount: 0.5
+mining_level_per_block_increase: 10
+mining_block_increase_rate: 0.25
 
-# GRINDING GUI INFORMATION
+# GRINDING INFORMATION
 grinding_gui_name: '&6&lGrinding'
+grinding_scale_base_amount: 25
+grinding_scale_increase_amount: 0.75
+grinding_level_per_xp_increase: 10
+grinding_xp_increase_rate: 0.25
 
-# FARMING GUI INFORMATION
+# FARMING INFORMATION
 farming_gui_name: '&a&lFarming'
+farming_scale_base_amount: 150
+farming_scale_increase_amount: 1
+farming_level_per_crop_drop_increase: 10
+farming_crop_drop_increase_rate: 0.25
 
 ######### PLACEHOLDERS #########
 # %player%    - The name of a player

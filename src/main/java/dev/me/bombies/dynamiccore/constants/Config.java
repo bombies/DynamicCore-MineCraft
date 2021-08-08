@@ -51,8 +51,20 @@ public enum Config {
     SKILLS_FARMING_MATERIAL("farming_item_material"),
     SKILLS_ITEM_SLOTS("item_slots"),
     SKILLS_GUI_MINING_NAME("mining_gui_name"),
+    SKILLS_MINING_SCALE_BASE("mining_scale_base_amount"),
+    SKILLS_MINING_SCALE_INCREASE("mining_scale_increase_amount"),
+    SKILLS_MINING_BLOCK_INCREASE_LEVEL("mining_level_per_block_increase"),
+    SKILLS_MINING_BLOCK_INCREASE_RATE("mining_block_increase_rate"),
     SKILLS_GUI_GRINDING_NAME("grinding_gui_name"),
-    SKILLS_GUI_FARMING_NAME("farming_gui_name");
+    SKILLS_GRINDING_SCALE_BASE("grinding_scale_base_amount"),
+    SKILLS_GRINDING_SCALE_INCREASE("grinding_scale_increase_amount"),
+    SKILLS_GRINDING_XP_INCREASE_LEVEL("grinding_level_per_xp_increase"),
+    SKILLS_GRINDING_XP_INCREASE_RATE("grinding_xp_increase_rate"),
+    SKILLS_GUI_FARMING_NAME("farming_gui_name"),
+    SKILLS_FARMING_SCALE_BASE("farming_scale_base_amount"),
+    SKILLS_FARMING_SCALE_INCREASE("farming_scale_increase_amount"),
+    SKILLS_FARMING_CROP_INCREASE_LEVEL("farming_level_per_crop_drop_increase"),
+    SKILLS_FARMING_CROP_INCREASE_RATE("farming_crop_drop_increase_rate");
 
     private final String str;
 

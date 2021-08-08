@@ -1,5 +1,6 @@
 package dev.me.bombies.dynamiccore.commands.commands.misc.skills.utils;
 
+import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.Databases;
 import dev.me.bombies.dynamiccore.constants.GUIs;
 import dev.me.bombies.dynamiccore.constants.Tables;
@@ -149,16 +150,16 @@ public class SkillsUtils extends DatabaseUtils {
         final double increaseAmount;
         switch (skill) {
             case SKILLS_MINING ->  {
-                baseAmount = 50D;
-                increaseAmount = 0.5D;
+                baseAmount = Config.getDouble(Config.SKILLS_MINING_SCALE_BASE);
+                increaseAmount = Config.getDouble(Config.SKILLS_MINING_SCALE_INCREASE);
             }
             case SKILLS_GRINDING -> {
-                baseAmount = 25D;
-                increaseAmount = 0.75D;
+                baseAmount = Config.getDouble(Config.SKILLS_GRINDING_SCALE_BASE);
+                increaseAmount = Config.getDouble(Config.SKILLS_GRINDING_SCALE_INCREASE);
             }
             case SKILLS_FARMING -> {
-                baseAmount = 150D;
-                increaseAmount = 1D;
+                baseAmount = Config.getDouble(Config.SKILLS_FARMING_SCALE_BASE);
+                increaseAmount = Config.getDouble(Config.SKILLS_FARMING_SCALE_INCREASE);
             }
             default -> throw new IllegalArgumentException("Invalid enum passed!");
         }

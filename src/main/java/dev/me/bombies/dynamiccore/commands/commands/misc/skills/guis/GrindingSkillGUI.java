@@ -10,12 +10,13 @@ import org.bukkit.inventory.Inventory;
 public class GrindingSkillGUI {
 
     public GrindingSkillGUI(Player player) {
+        int playerLevel = SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_GRINDING);
         Inventory roadMap = GUIBuilder.buildRoadMap(
                 GUIs.SKILLS_GRINDING,
                 player,
                 GUIs.SKILLS_GRINDING.toString(),
-                0,
-                SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_GRINDING),
+                SkillsGUICommand.getSeriesIndex(playerLevel),
+                playerLevel,
                 Tables.SKILLS_GRINDING
         ).build();
 

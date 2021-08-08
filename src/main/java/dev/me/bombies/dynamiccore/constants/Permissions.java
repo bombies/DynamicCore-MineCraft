@@ -28,7 +28,8 @@ public enum Permissions {
 
     COLORED_ANVIL(MAIN_NODE + "anvilcolor"),
 
-    SELF_GIVE(MAIN_NODE + "self_give");
+    SKILLS_MAIN_NODE(MAIN_NODE + "skills"),
+    SKILLS_SET_LEVEL(SKILLS_MAIN_NODE + ".setlevel");
 
     private final String str;
 

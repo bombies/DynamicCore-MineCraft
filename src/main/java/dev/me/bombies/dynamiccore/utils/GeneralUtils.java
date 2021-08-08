@@ -4,18 +4,21 @@ import com.google.common.base.Strings;
 import dev.me.bombies.dynamiccore.constants.Placeholders;
 import dev.me.bombies.dynamiccore.constants.PLUGIN;
 import dev.me.bombies.dynamiccore.constants.Permissions;
+import dev.me.bombies.dynamiccore.constants.materials.Ores;
 import lombok.NonNull;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public class GeneralUtils {
@@ -162,10 +165,15 @@ public class GeneralUtils {
         if (isCrop(block))
             return false;
 
+        if (isPotted(block))
+            return false;
+
+        if (isFlower(block))
+            return false;
+
         switch (block.getBlockData().getMaterial()) {
             case GRASS, TALL_GRASS, TALL_SEAGRASS, VINE,
-                    WEEPING_VINES_PLANT, TWISTING_VINES_PLANT, ROSE_BUSH,
-                    WITHER_ROSE, PEONY, POPPY, OXEYE_DAISY,
+                    WEEPING_VINES_PLANT, TWISTING_VINES_PLANT,
                     ACACIA_SAPLING, BAMBOO_SAPLING, BIRCH_SAPLING, DARK_OAK_SAPLING,
                     JUNGLE_SAPLING, OAK_SAPLING, RAIL, ACTIVATOR_RAIL,
                     DETECTOR_RAIL, POWERED_RAIL, TORCH, REDSTONE_TORCH, REDSTONE_WALL_TORCH,
@@ -219,6 +227,84 @@ public class GeneralUtils {
                 return false;
             }
         }
+    }
+
+    public static boolean isFlower(Block block) {
+        if (block == null)
+            return false;
+
+        switch (block.getBlockData().getMaterial()) {
+            case CORNFLOWER, SUNFLOWER, ROSE_BUSH, WITHER_ROSE,
+                    PEONY, POPPY, OXEYE_DAISY, DANDELION,
+                    BLUE_ORCHID, ALLIUM, AZURE_BLUET, ORANGE_TULIP,
+                    PINK_TULIP, RED_TULIP, WHITE_TULIP, LILY_OF_THE_VALLEY,
+                    LILAC -> {
+                return true;
+            }
+            default -> {
+                return false;
+            }
+        }
+    }
+
+    public static boolean isPotted(Block block) {
+        if (block == null)
+            return false;
+
+        switch (block.getBlockData().getMaterial()) {
+            case POTTED_ACACIA_SAPLING,
+                    POTTED_ALLIUM, POTTED_AZALEA_BUSH, POTTED_BAMBOO, POTTED_AZURE_BLUET, POTTED_BLUE_ORCHID,
+                    POTTED_BIRCH_SAPLING, POTTED_CACTUS, POTTED_CORNFLOWER, POTTED_BROWN_MUSHROOM,
+                    POTTED_CRIMSON_FUNGUS, POTTED_CRIMSON_ROOTS, POTTED_DANDELION, POTTED_FERN,
+                    POTTED_DARK_OAK_SAPLING, POTTED_DEAD_BUSH, POTTED_JUNGLE_SAPLING, POTTED_OAK_SAPLING, POTTED_FLOWERING_AZALEA_BUSH,
+                    POTTED_POPPY, POTTED_LILY_OF_THE_VALLEY, POTTED_ORANGE_TULIP, POTTED_PINK_TULIP,
+                    POTTED_OXEYE_DAISY, POTTED_RED_MUSHROOM, POTTED_RED_TULIP, POTTED_SPRUCE_SAPLING, POTTED_WARPED_FUNGUS,
+                    POTTED_WARPED_ROOTS, POTTED_WHITE_TULIP, POTTED_WITHER_ROSE-> {
+                return true;
+            }
+            default -> {
+                return false;
+            }
+        }
+    }
+
+    public static boolean isOre(Block block) {
+       for (Ores ore : Ores.values())
+           if (ore.toMaterial().equals(block.getType()))
+               return true;
+        return false;
+    }
+
+    public static Collection<ItemStack> getOreDrops(Block block) {
+        if (!isOre(block))
+            throw new IllegalArgumentException("Block passed isn't an ore!");
+        return block.getDrops();
+    }
+
+    public static boolean isMob(EntityType type) {
+        if (type == null) {
+            return false;
+        }
+
+        switch (type) {
+            case EVOKER, VINDICATOR, PILLAGER, RAVAGER,
+                    VEX, ENDERMITE, GUARDIAN, ELDER_GUARDIAN,
+                    SHULKER, SKELETON, WITHER_SKELETON, WITHER,
+                    HUSK, STRAY, PHANTOM, BLAZE, CREEPER, GHAST,
+                    MAGMA_CUBE, SILVERFISH, SLIME, SPIDER, CAVE_SPIDER,
+                    ZOMBIE, ZOMBIE_VILLAGER, DROWNED, WITCH,
+                    HOGLIN, ZOGLIN, PIGLIN_BRUTE, ENDERMAN,
+                    ZOMBIFIED_PIGLIN -> {
+                return true;
+            }
+            default -> {
+                return false;
+            }
+        }
+    }
+
+    public static boolean isAnimal(EntityType type) {
+        return !isMob(type);
     }
 }
 

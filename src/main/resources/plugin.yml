@@ -60,3 +60,6 @@ commands:
   skills:
     description: Command to access the skills GUI
     usage: /<command>
+  setskilllevel:
+    description: Command to set the level of a skill for a user
+    usage: /<command> <player> <skill> <level>

@@ -29,13 +29,10 @@ public class MainGUIEvents implements Listener {
         HumanEntity player = e.getWhoClicked();
         if (typeClicked.equals(Config.getMaterial(Config.SKILLS_MINING_MATERIAL))) {
             new MiningSkillGUI((Player) player);
-            player.sendMessage(ChatColor.RED  + "This feature is a work in progress!");
         } else if (typeClicked.equals(Config.getMaterial(Config.SKILLS_GRINDING_MATERIAL))) {
             new GrindingSkillGUI((Player) player);
-            player.sendMessage(ChatColor.RED  + "This feature is a work in progress!");
         } else if (typeClicked.equals(Config.getMaterial(Config.SKILLS_FARMING_MATERIAL))) {
             new FarmingSkillGUI((Player) player);
-            player.sendMessage(ChatColor.RED  + "This feature is a work in progress!");
         }
 
         e.setCancelled(true);

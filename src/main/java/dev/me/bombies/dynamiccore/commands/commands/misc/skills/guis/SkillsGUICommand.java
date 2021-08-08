@@ -78,4 +78,14 @@ public class SkillsGUICommand implements CommandExecutor {
 
         return true;
     }
+
+    protected static int getSeriesIndex(int level) {
+        if (level == 0)
+            return 0;
+
+        if (level % 21 == 0)
+            return (level/21)-1;
+
+        return level/21;
+    }
 }

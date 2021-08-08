@@ -10,12 +10,13 @@ import org.bukkit.inventory.Inventory;
 public class FarmingSkillGUI {
 
     public FarmingSkillGUI(Player player) {
+        int playerLevel = SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_FARMING);
         Inventory roadMap = GUIBuilder.buildRoadMap(
                 GUIs.SKILLS_FARMING,
                 player,
                 GUIs.SKILLS_FARMING.toString(),
-                0,
-                SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_FARMING),
+                SkillsGUICommand.getSeriesIndex(playerLevel),
+                playerLevel,
                 Tables.SKILLS_FARMING
         ).build();
 
