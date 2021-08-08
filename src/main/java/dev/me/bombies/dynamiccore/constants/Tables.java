@@ -5,7 +5,12 @@ public enum Tables {
     PLAYER_DEATHS("player_deaths"),
 
     // homes.db
-    PLAYER_HOMES("player_homes");
+    PLAYER_HOMES("player_homes"),
+
+    // skills.db
+    SKILLS_MINING("mining"),
+    SKILLS_GRINDING("grinding"),
+    SKILLS_FARMING("farming");
 
     private final String str;
 

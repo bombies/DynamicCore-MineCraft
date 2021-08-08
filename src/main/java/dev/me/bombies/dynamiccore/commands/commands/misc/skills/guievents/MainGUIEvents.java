@@ -1,10 +1,14 @@
 package dev.me.bombies.dynamiccore.commands.commands.misc.skills.guievents;
 
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guis.FarmingSkillGUI;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guis.GrindingSkillGUI;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guis.MiningSkillGUI;
 import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.GUIs;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -24,13 +28,13 @@ public class MainGUIEvents implements Listener {
         Material typeClicked = e.getCurrentItem().getType();
         HumanEntity player = e.getWhoClicked();
         if (typeClicked.equals(Config.getMaterial(Config.SKILLS_MINING_MATERIAL))) {
-            player.closeInventory();
+            new MiningSkillGUI((Player) player);
             player.sendMessage(ChatColor.RED  + "This feature is a work in progress!");
         } else if (typeClicked.equals(Config.getMaterial(Config.SKILLS_GRINDING_MATERIAL))) {
-            player.closeInventory();
+            new GrindingSkillGUI((Player) player);
             player.sendMessage(ChatColor.RED  + "This feature is a work in progress!");
         } else if (typeClicked.equals(Config.getMaterial(Config.SKILLS_FARMING_MATERIAL))) {
-            player.closeInventory();
+            new FarmingSkillGUI((Player) player);
             player.sendMessage(ChatColor.RED  + "This feature is a work in progress!");
         }
 

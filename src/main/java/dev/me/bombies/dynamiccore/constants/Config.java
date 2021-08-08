@@ -11,6 +11,7 @@ public enum Config {
     // Database Info
     DEATHS_DB_NAME("deaths_database_name"),
     HOMES_DB_NAME("homes_database_name"),
+    SKILLS_DB_NAME("skills_database_name"),
 
     // General Plugin Info
     PREFIX("prefix"),
@@ -37,7 +38,7 @@ public enum Config {
     BAZOOKA_COOLDOWN_MSG("bazooka_cooldown_message"),
 
     // Skills Info
-    SKILLS_GUI_NAME("skills_gui_name"),
+    SKILLS_GUI_MAIN_NAME("skills_gui_name"),
     SKILLS_GUI_SIZE("skills_gui_size"),
     SKILLS_MINING_NAME("mining_item_name"),
     SKILLS_MINING_LORE("mining_item_lore"),
@@ -48,7 +49,10 @@ public enum Config {
     SKILLS_FARMING_NAME("farming_item_name"),
     SKILLS_FARMING_LORE("farming_item_lore"),
     SKILLS_FARMING_MATERIAL("farming_item_material"),
-    SKILLS_ITEM_SLOTS("item_slots");
+    SKILLS_ITEM_SLOTS("item_slots"),
+    SKILLS_GUI_MINING_NAME("mining_gui_name"),
+    SKILLS_GUI_GRINDING_NAME("grinding_gui_name"),
+    SKILLS_GUI_FARMING_NAME("farming_gui_name");
 
     private final String str;
 

@@ -5,7 +5,8 @@ import dev.me.bombies.dynamiccore.utils.plugin.PluginUtils;
 public enum Databases {
     DIRECTORY("/"+PLUGIN.NAME+"/databases"),
     DEATHS(PluginUtils.getStringFromConfig(Config.DEATHS_DB_NAME) +  ".db"),
-    HOMES(PluginUtils.getStringFromConfig(Config.HOMES_DB_NAME) + ".db");
+    HOMES(PluginUtils.getStringFromConfig(Config.HOMES_DB_NAME) + ".db"),
+    SKILLS(PluginUtils.getStringFromConfig(Config.SKILLS_DB_NAME) + ".db");
 
     private final String str;
 

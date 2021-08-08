@@ -1,4 +1,4 @@
-package dev.me.bombies.dynamiccore.commands.commands.misc.skills;
+package dev.me.bombies.dynamiccore.commands.commands.misc.skills.guis;
 
 import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.GUIs;
@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
-public class SkillsCommand implements CommandExecutor {
+public class SkillsGUICommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {

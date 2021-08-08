@@ -1,12 +1,13 @@
 ################################################
 # DynamicCore Config
-# Version: 0.0.11
+# Version: 0.0.12
 # Made by: bombies
 ################################################
 
 # Database Info
 deaths_database_name: 'deaths'
 homes_database_name: 'homes'
+skills_database_name: 'skills'
 
 # General Plugin Info
 prefix: '&b&l>> '
@@ -67,6 +68,15 @@ item_slots: # 3 slots MUST be provided
   - 11
   - 13
   - 15
+
+# MINING GUI INFORMATION
+mining_gui_name: '&4&lMining'
+
+# GRINDING GUI INFORMATION
+grinding_gui_name: '&6&lGrinding'
+
+# FARMING GUI INFORMATION
+farming_gui_name: '&a&lFarming'
 
 ######### PLACEHOLDERS #########
 # %player%    - The name of a player

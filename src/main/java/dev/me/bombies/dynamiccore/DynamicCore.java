@@ -6,8 +6,11 @@ import dev.me.bombies.dynamiccore.commands.commands.misc.bazooka.BazookaEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.DeleteHomeCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.HomeCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.SetHomeCommand;
-import dev.me.bombies.dynamiccore.commands.commands.misc.skills.SkillsCommand;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.events.MiningEvents;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guievents.MiningGUIEvents;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guis.SkillsGUICommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guievents.MainGUIEvents;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.utils.SkillsUtils;
 import dev.me.bombies.dynamiccore.commands.commands.misc.snowballgun.SnowBallGunCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.snowballgun.SnowBallGunEvents;
 import dev.me.bombies.dynamiccore.commands.commands.utils.dynamiccoreutils.DynamicCoreCommandManager;
@@ -30,7 +33,9 @@ public final class DynamicCore extends JavaPlugin {
                 new SnowBallGunEvents(),
                 new BazookaEvents(),
                 new AnvilViewEvents(),
-                new MainGUIEvents()
+                new MainGUIEvents(),
+                new MiningGUIEvents(),
+                new MiningEvents()
         );
 
         getCommand("deathstop").setExecutor(new DeathTopCommand());
@@ -48,11 +53,16 @@ public final class DynamicCore extends JavaPlugin {
         getCommand("invsee").setExecutor(new InventorySeeCommand());
         getCommand("workbench").setExecutor(new WorkBenchCommand());
         getCommand("ping").setExecutor(new PingCommand());
-        getCommand("skills").setExecutor(new SkillsCommand());
+        getCommand("skills").setExecutor(new SkillsGUICommand());
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();
 
         System.out.println(PLUGIN.PREFIX + "DynamicCore ready!");
+    }
+
+    @Override
+    public void onDisable() {
+        SkillsUtils.ins.closeConnection();
     }
 }

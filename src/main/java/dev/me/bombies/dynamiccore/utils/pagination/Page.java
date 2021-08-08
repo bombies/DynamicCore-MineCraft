@@ -1,4 +1,4 @@
-package dev.me.bombies.dynamiccore.utils.Pagination;
+package dev.me.bombies.dynamiccore.utils.pagination;
 
 import lombok.Getter;
 

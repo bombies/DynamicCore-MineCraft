@@ -8,8 +8,17 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public enum GUIs {
     DEFAULT_PLACEHOLDER(Material.BLACK_STAINED_GLASS_PANE),
+    ROADMAP_COMPLETE(Material.GREEN_STAINED_GLASS_PANE),
+    ROADMAP_IN_PROGRESS(Material.ORANGE_STAINED_GLASS_PANE),
+    ROADMAP_LOCKED(Material.RED_STAINED_GLASS_PANE),
 
-    SKILLS_MAIN(Config.getColouredString(Config.SKILLS_GUI_NAME));
+    ROADMAP_COMPLETE_NAME("&a&lCOMPLETE"),
+    ROADMAP_IN_PROGRESS_NAME("&6&lIN PROGRESS"),
+    ROADMAP_LOCKED_NAME("&4&lLOCKED"),
+    SKILLS_MAIN(Config.getColouredString(Config.SKILLS_GUI_MAIN_NAME)),
+    SKILLS_MINING(Config.getColouredString(Config.SKILLS_GUI_MINING_NAME)),
+    SKILLS_GRINDING(Config.getColouredString(Config.SKILLS_GUI_GRINDING_NAME)),
+    SKILLS_FARMING(Config.getColouredString(Config.SKILLS_GUI_FARMING_NAME));
 
     private String str;
     private Material mat;

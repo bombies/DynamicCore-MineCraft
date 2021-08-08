@@ -73,6 +73,27 @@ public class DatabaseUtils {
                         ");";
                 statement.execute(sql);
             }
+            case SKILLS -> {
+                Statement statement = con.createStatement();
+                String sql1 = "CREATE TABLE " + Tables.SKILLS_MINING + "(" +
+                        " uuid TEXT PRIMARY KEY," +
+                        " current_level INTEGER NOT NULL ," +
+                        " xp_next INTEGER NOT NULL" +
+                        ");";
+                statement.execute(sql1);
+                String sql2 = "CREATE TABLE " + Tables.SKILLS_GRINDING + "(" +
+                        " uuid TEXT PRIMARY KEY," +
+                        " current_level INTEGER NOT NULL ," +
+                        " xp_next INTEGER NOT NULL" +
+                        ");";
+                statement.execute(sql2);
+                String sql3 = "CREATE TABLE " + Tables.SKILLS_FARMING + "(" +
+                        " uuid TEXT PRIMARY KEY," +
+                        " current_level INTEGER NOT NULL ," +
+                        " xp_next INTEGER NOT NULL" +
+                        ");";
+                statement.execute(sql3);
+            }
             case DIRECTORY -> throw new IllegalArgumentException("Invalid database enum!");
         }
     }

@@ -2,8 +2,8 @@ package dev.me.bombies.dynamiccore.commands.commands.misc;
 
 import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
-import dev.me.bombies.dynamiccore.utils.Pagination.Page;
-import dev.me.bombies.dynamiccore.utils.Pagination.PaginationUtils;
+import dev.me.bombies.dynamiccore.utils.pagination.Page;
+import dev.me.bombies.dynamiccore.utils.pagination.PaginationUtils;
 import dev.me.bombies.dynamiccore.utils.database.DeathCounterUtils;
 import dev.me.bombies.dynamiccore.utils.plugin.PluginUtils;
 import org.bukkit.ChatColor;
