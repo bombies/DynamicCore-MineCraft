@@ -10,6 +10,7 @@ import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -49,7 +50,10 @@ public class MiningEvents implements Listener {
         int levelPerXPIncrease  = Config.getInt(Config.SKILLS_MINING_BLOCK_INCREASE_LEVEL);
         float xpIncreaseRate    = Config.getFloat(Config.SKILLS_MINING_BLOCK_INCREASE_RATE);
 
-        if (GeneralUtils.isOre(e.getBlock())) {
+        ItemStack tool = player.getInventory().getItemInMainHand();
+
+        // Item multiplier logic
+        if (GeneralUtils.isOre(e.getBlock()) && !tool.containsEnchantment(Enchantment.SILK_TOUCH)) {
             if (playerLevel >= 10) {
                 if (!e.isDropItems())
                     return;
@@ -92,7 +96,7 @@ public class MiningEvents implements Listener {
         if (playerTasks.containsKey(player))
             playerTasks.get(player).cancel();
 
-        int level = SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING)+1;
+        int level = tempPlayerLevel.get(player)+1;
 
         double percentageFull = (currentXP/(double)nextXP);
 

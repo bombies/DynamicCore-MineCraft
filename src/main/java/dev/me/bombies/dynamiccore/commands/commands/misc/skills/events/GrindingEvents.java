@@ -10,6 +10,7 @@ import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -41,6 +42,8 @@ public class GrindingEvents implements Listener {
             if (e.getEntity().getLastDamageCause().getCause().equals(EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK))
                 player = (Player) e.getEntity().getLastDamageCause().getEntity();
         } else player = e.getEntity().getKiller();
+
+        if (player == null) return;
 
         if (!tempPlayerLevel.containsKey(player))
             tempPlayerLevel.put(player, SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_GRINDING));
@@ -99,21 +102,21 @@ public class GrindingEvents implements Listener {
         MiningEvents.taskRunnable(bar, player, playerTasks, timer);
     }
 
-    public static int getXPForPlayer(Player player) {
+    public static synchronized int getXPForPlayer(Player player) {
         if (!tempPlayerXP.containsKey(player))
             tempPlayerXP.put(player, SkillsUtils.ins.getXP(player.getUniqueId(), Tables.SKILLS_MINING));
         return tempPlayerXP.get(player);
     }
 
-    public static boolean playerHasTempXPInfo(Player player) {
+    public static synchronized boolean playerHasTempXPInfo(Player player) {
         return tempPlayerXP.containsKey(player);
     }
 
-    public static void removeXPInfoForPlayer(Player player) {
+    public static synchronized void removeXPInfoForPlayer(Player player) {
         tempPlayerXP.remove(player);
     }
 
-    public static int getLevelForPlayer(Player player) {
+    public static synchronized int getLevelForPlayer(Player player) {
         if (!tempPlayerLevel.containsKey(player))
             tempPlayerLevel.put(player, SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING));
         return tempPlayerLevel.get(player);

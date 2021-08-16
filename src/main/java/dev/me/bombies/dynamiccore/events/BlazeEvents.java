@@ -29,7 +29,7 @@ public class BlazeEvents implements Listener {
             e.setCancelled(true); return;
         }
 
-    if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) || e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK)) {
+        if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) || e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK)) {
             final Vector vec = new Vector();
             blaze.setVelocity(vec);
             new BukkitRunnable() {
@@ -40,6 +40,8 @@ public class BlazeEvents implements Listener {
                 }
             }.runTaskLater(DynamicCore.getPlugin(DynamicCore.class), 1L);
         }
+
+        blaze.setNoDamageTicks(0);
     }
 
     @EventHandler (priority = EventPriority.HIGH)
@@ -57,6 +59,7 @@ public class BlazeEvents implements Listener {
         blaze.addPotionEffect(slowness);
         blaze.addPotionEffect(blindness);
         blaze.setTarget(null);
+        blaze.setNoDamageTicks(0);
     }
 
     @EventHandler (priority = EventPriority.HIGH)

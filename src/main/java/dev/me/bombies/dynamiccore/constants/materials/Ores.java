@@ -10,7 +10,9 @@ public enum Ores {
     GOLD_ORE(Material.GOLD_ORE),
     IRON_ORE(Material.IRON_ORE),
     LAPIS_ORE(Material.LAPIS_ORE),
-    REDSTONE_ORE(Material.REDSTONE_ORE);
+    REDSTONE_ORE(Material.REDSTONE_ORE),
+    QUARTZ_ORE(Material.NETHER_QUARTZ_ORE),
+    NETHER_GOLD_ORE(Material.NETHER_GOLD_ORE);
 
     private final Material material;
 
