@@ -10,6 +10,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -305,6 +307,16 @@ public class GeneralUtils {
 
     public static boolean isAnimal(EntityType type) {
         return !isMob(type);
+    }
+
+    public static BlockData getYoungestCrop(Block e) {
+        if (!isCrop(e))
+            throw new IllegalArgumentException("Block passed isn't a crop!");
+
+        if (!(e.getBlockData() instanceof Ageable age))
+            throw new IllegalArgumentException("Block passed isn't an ageable block!");
+
+        return age;
     }
 }
 

@@ -6,6 +6,8 @@ import dev.me.bombies.dynamiccore.commands.commands.misc.bazooka.BazookaEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.DeleteHomeCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.HomeCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.SetHomeCommand;
+import dev.me.bombies.dynamiccore.commands.commands.misc.replanttool.ReplantToolEvents;
+import dev.me.bombies.dynamiccore.commands.commands.misc.replanttool.ReplantToolRecipe;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.commands.SetSkillLevelCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.events.FarmingEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.events.GrindingEvents;
@@ -17,18 +19,21 @@ import dev.me.bombies.dynamiccore.commands.commands.misc.skills.utils.SkillsUtil
 import dev.me.bombies.dynamiccore.commands.commands.misc.snowballgun.SnowBallGunCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.snowballgun.SnowBallGunEvents;
 import dev.me.bombies.dynamiccore.commands.commands.utils.dynamiccoreutils.DynamicCoreCommandManager;
-import dev.me.bombies.dynamiccore.constants.PLUGIN;
-import dev.me.bombies.dynamiccore.events.AnvilViewEvents;
-import dev.me.bombies.dynamiccore.events.ChatFormatEvent;
-import dev.me.bombies.dynamiccore.events.DeathEvents;
-import dev.me.bombies.dynamiccore.events.PatchEvents;
+import dev.me.bombies.dynamiccore.constants.Tables;
+import dev.me.bombies.dynamiccore.events.*;
 import dev.me.bombies.dynamiccore.utils.plugin.PluginUtils;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Logger;
+
 public final class DynamicCore extends JavaPlugin {
+    public static Logger logger;
 
     @Override
     public void onEnable() {
+        logger = getLogger();
+        logger.info("Registering events!");
         PluginUtils.registerEvents(this,
                 new DeathEvents(),
                 new ChatFormatEvent(),
@@ -40,9 +45,18 @@ public final class DynamicCore extends JavaPlugin {
                 new MiningGUIEvents(),
                 new MiningEvents(),
                 new GrindingEvents(),
-                new FarmingEvents()
+                new FarmingEvents(),
+                new BlazeEvents(),
+                new ReplantToolEvents(),
+                new ConnectEvents()
         );
+        logger.info("Events registered!");
 
+        logger.info("Loading custom recipes!");
+        loadRecipes();
+        logger.info("Custom recipes loaded!");
+
+        logger.info("Loading commands!");
         getCommand("deathstop").setExecutor(new DeathTopCommand());
         getCommand("suicide").setExecutor(new SuicideCommand());
         getCommand("dyncore").setExecutor(new DynamicCoreCommandManager());
@@ -60,15 +74,49 @@ public final class DynamicCore extends JavaPlugin {
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("skills").setExecutor(new SkillsGUICommand());
         getCommand("setskilllevel").setExecutor(new SetSkillLevelCommand());
+        logger.info("Loading commands loaded!");
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();
 
-        System.out.println(PLUGIN.PREFIX + "DynamicCore ready!");
+        logger.info("Updating skills information");
+        updateSkillInfo();
+        logger.info("Skills information updated!");
+
+        logger.info("DynamicCore ready!");
+    }
+
+    private void loadRecipes() {
+        ReplantToolRecipe.loadRecipe();
     }
 
     @Override
     public void onDisable() {
+        unloadRecipes();
+        updateSkillInfo();
         SkillsUtils.ins.closeConnection();
+    }
+
+    private void unloadRecipes() {
+        ReplantToolRecipe.unloadRecipe();
+    }
+
+    private void updateSkillInfo() {
+        for (Player player : getServer().getOnlinePlayers()) {
+            if (MiningEvents.playerHasTempXPInfo(player))
+                SkillsUtils.ins.setXP(player.getUniqueId(), Tables.SKILLS_MINING, MiningEvents.getXPForPlayer(player));
+            if (MiningEvents.playerHasTempLevelInfo(player))
+                SkillsUtils.ins.setPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING, MiningEvents.getLevelForPlayer(player));
+
+            if (GrindingEvents.playerHasTempXPInfo(player))
+                SkillsUtils.ins.setXP(player.getUniqueId(), Tables.SKILLS_GRINDING, GrindingEvents.getXPForPlayer(player));
+            if (GrindingEvents.playerHasTempLevelInfo(player))
+                SkillsUtils.ins.setPlayerLevel(player.getUniqueId(), Tables.SKILLS_GRINDING, GrindingEvents.getLevelForPlayer(player));
+
+            if (FarmingEvents.playerHasTempXPInfo(player))
+                SkillsUtils.ins.setXP(player.getUniqueId(), Tables.SKILLS_FARMING, FarmingEvents.getXPForPlayer(player));
+            if (FarmingEvents.playerHasTempLevelInfo(player))
+                SkillsUtils.ins.setPlayerLevel(player.getUniqueId(), Tables.SKILLS_FARMING, FarmingEvents.getLevelForPlayer(player));
+        }
     }
 }

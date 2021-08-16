@@ -1,6 +1,6 @@
 ################################################
 # DynamicCore Config
-# Version: 0.0.12
+# Version: 0.0.13
 # Made by: bombies
 ################################################
 
@@ -89,6 +89,15 @@ farming_scale_base_amount: 150
 farming_scale_increase_amount: 1
 farming_level_per_crop_drop_increase: 10
 farming_crop_drop_increase_rate: 0.25
+##########################
+
+# Replant Tool
+replant_tool_name: '&a&lReplant Tool'
+replant_tool_lore:
+  - '&8&m-------------------------------'
+  - '&2&l◌ &aThis tool will automatically'
+  - '&areplant crops when you break them!'
+  - '&8&m-------------------------------'
 
 ######### PLACEHOLDERS #########
 # %player%    - The name of a player

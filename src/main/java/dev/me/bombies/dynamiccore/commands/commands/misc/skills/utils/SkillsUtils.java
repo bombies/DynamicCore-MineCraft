@@ -20,7 +20,7 @@ public class SkillsUtils extends DatabaseUtils {
     @SneakyThrows
     private boolean hasData(UUID uuid, Tables table) {
         Statement statement = getCon().createStatement();
-        String sql = "SELECT * FROM " + table + " WHERE uuid='"+uuid+"';";
+        String sql = "SELECT current_level FROM " + table + " WHERE uuid='"+uuid+"';";
         ResultSet resultSet = statement.executeQuery(sql);
         return resultSet.next();
     }
@@ -47,7 +47,7 @@ public class SkillsUtils extends DatabaseUtils {
             addPlayer(uuid, table);
 
         Statement statement = getCon().createStatement();
-        String sql = "SELECT * FROM " + table + " WHERE uuid='"+ uuid +"';";
+        String sql = "SELECT current_level FROM " + table + " WHERE uuid='"+ uuid +"';";
         ResultSet resultSet = statement.executeQuery(sql);
         while (resultSet.next())
             return resultSet.getInt("current_level");
@@ -91,7 +91,7 @@ public class SkillsUtils extends DatabaseUtils {
             addPlayer(uuid, table);
 
         Statement statement = getCon().createStatement();
-        String sql = "SELECT * FROM " + table + " WHERE uuid='"+uuid+"';";
+        String sql = "SELECT xp_next FROM " + table + " WHERE uuid='"+uuid+"';";
         ResultSet dbRes = statement.executeQuery(sql);
         while (dbRes.next())
             return dbRes.getInt("xp_next");

@@ -10,53 +10,61 @@ import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class GrindingEvents implements Listener {
     private static Timer timer = new Timer();
-    private static List<TimerTask> tasks = new ArrayList<>();
+    private static HashMap<Player, TimerTask> playerTasks = new HashMap<>();
+    private static HashMap<Player, Integer> tempPlayerXP = new HashMap<>();
+    private static HashMap<Player, Integer> tempPlayerLevel = new HashMap<>();
     private BossBar bar = Bukkit.createBossBar(
             "nothing",
             BarColor.YELLOW,
             BarStyle.SOLID
     );
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onMobKill(EntityDeathEvent e) {
+    @EventHandler(priority = EventPriority.NORMAL)
+    public synchronized void onMobKill(EntityDeathEvent e) {
         if (!GeneralUtils.isMob(e.getEntityType()))
             return;
 
-        if (e.getEntity().getKiller() == null)
-            return;
+        Player player = null;
 
-        Player player = e.getEntity().getKiller();
+        if (e.getEntity().getKiller() == null) {
+            if (e.getEntity().getLastDamageCause().getCause().equals(EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK))
+                player = (Player) e.getEntity().getLastDamageCause().getEntity();
+        } else player = e.getEntity().getKiller();
 
-        int playerLevel     = SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_GRINDING);
-        int currentXP       = SkillsUtils.ins.getXP(player.getUniqueId(), Tables.SKILLS_GRINDING);
-        int nextXP          = SkillsUtils.ins.getNextXPForLevel(GUIs.SKILLS_GRINDING, SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_GRINDING) + 1);
+        if (!tempPlayerLevel.containsKey(player))
+            tempPlayerLevel.put(player, SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_GRINDING));
+
+        if (!tempPlayerXP.containsKey(player))
+            tempPlayerXP.put(player, SkillsUtils.ins.getXP(player.getUniqueId(), Tables.SKILLS_GRINDING));
+
+        int playerLevel         = tempPlayerLevel.get(player);
+        int currentXP           = tempPlayerXP.get(player);
+        int nextXP              = SkillsUtils.ins.getNextXPForLevel(GUIs.SKILLS_GRINDING, SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_GRINDING) + 1);
         int levelPerXPIncrease  = Config.getInt(Config.SKILLS_GRINDING_XP_INCREASE_LEVEL);
         float xpIncreaseRate    = Config.getFloat(Config.SKILLS_GRINDING_XP_INCREASE_RATE);
 
         e.setDroppedExp(e.getDroppedExp() + (e.getDroppedExp() * Math.round((xpIncreaseRate * (playerLevel/levelPerXPIncrease)))));
 
-        SkillsUtils.ins.incrementXP(player.getUniqueId(), Tables.SKILLS_GRINDING);
+        tempPlayerXP.put(player, tempPlayerXP.get(player)+1);
 
         updateBossBar(player, currentXP, nextXP);
 
         if (currentXP == nextXP) {
-            SkillsUtils.ins.levelUp(player.getUniqueId(), Tables.SKILLS_GRINDING);
-            playerLevel     = SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_GRINDING);
+            tempPlayerLevel.put(player, tempPlayerLevel.get(player)+1);
+            tempPlayerXP.put(player, 0);
+
+            playerLevel     = tempPlayerLevel.get(player);
             player.sendTitle(
                     GeneralUtils.getColoredString("&6&lGrinding Skill &8| &e↑" + playerLevel),
                     GeneralUtils.getColoredString("&7You have levelled up your grinding skill!"),
@@ -71,13 +79,11 @@ public class GrindingEvents implements Listener {
         }
     }
 
-    private void updateBossBar(Player player, int currentXP, int nextXP) {
-        if (tasks.size() >= 2) {
-            cancelTask(tasks.size()-2);
-            tasks.remove(tasks.size()-2);
-        }
+    private synchronized void updateBossBar(Player player, int currentXP, int nextXP) {
+        if (playerTasks.containsKey(player))
+            playerTasks.get(player).cancel();
 
-        int level = SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_GRINDING)+1;
+        int level = tempPlayerLevel.get(player)+1;
 
         double percentageFull = (currentXP/(double)nextXP);
 
@@ -89,19 +95,35 @@ public class GrindingEvents implements Listener {
         startNewTask(bar, player);
     }
 
-    private static void startNewTask(BossBar bar, Player player) {
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                if (bar.getPlayers().contains(player))
-                    bar.removePlayer(player);
-            }
-        };
-        timer.schedule(task, 10000L);
-        tasks.add(task);
+    private synchronized static void startNewTask(BossBar bar, Player player) {
+        MiningEvents.taskRunnable(bar, player, playerTasks, timer);
     }
 
-    private static void cancelTask(int index) {
-        tasks.get(index).cancel();
+    public static int getXPForPlayer(Player player) {
+        if (!tempPlayerXP.containsKey(player))
+            tempPlayerXP.put(player, SkillsUtils.ins.getXP(player.getUniqueId(), Tables.SKILLS_MINING));
+        return tempPlayerXP.get(player);
+    }
+
+    public static boolean playerHasTempXPInfo(Player player) {
+        return tempPlayerXP.containsKey(player);
+    }
+
+    public static void removeXPInfoForPlayer(Player player) {
+        tempPlayerXP.remove(player);
+    }
+
+    public static int getLevelForPlayer(Player player) {
+        if (!tempPlayerLevel.containsKey(player))
+            tempPlayerLevel.put(player, SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING));
+        return tempPlayerLevel.get(player);
+    }
+
+    public static boolean playerHasTempLevelInfo(Player player) {
+        return tempPlayerLevel.containsKey(player);
+    }
+
+    public static void removeLevelInfoForPlayer(Player player) {
+        tempPlayerLevel.remove(player);
     }
 }

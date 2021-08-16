@@ -64,7 +64,11 @@ public enum Config {
     SKILLS_FARMING_SCALE_BASE("farming_scale_base_amount"),
     SKILLS_FARMING_SCALE_INCREASE("farming_scale_increase_amount"),
     SKILLS_FARMING_CROP_INCREASE_LEVEL("farming_level_per_crop_drop_increase"),
-    SKILLS_FARMING_CROP_INCREASE_RATE("farming_crop_drop_increase_rate");
+    SKILLS_FARMING_CROP_INCREASE_RATE("farming_crop_drop_increase_rate"),
+
+    // Replant tool
+    REPLANT_TOOL_NAME("replant_tool_name"),
+    REPLANT_TOOL_LORE("replant_tool_lore");
 
     private final String str;
 

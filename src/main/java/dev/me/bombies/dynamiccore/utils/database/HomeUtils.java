@@ -1,5 +1,6 @@
 package dev.me.bombies.dynamiccore.utils.database;
 
+import dev.me.bombies.dynamiccore.DynamicCore;
 import dev.me.bombies.dynamiccore.constants.Databases;
 import dev.me.bombies.dynamiccore.constants.Tables;
 import dev.me.bombies.dynamiccore.utils.plugin.Coordinates;
@@ -123,7 +124,7 @@ public class HomeUtils extends DatabaseUtils {
             throw new NullPointerException("The user with uuid '"+uuid+"' has no home called '"+home.toLowerCase()+"'.");
 
         Statement dbStat = getCon().createStatement();
-        String sql = "SELECT world_name FROM " + Tables.PLAYER_HOMES + " WHERE uuid='"+uuid+"';";
+        String sql = "SELECT world_name FROM " + Tables.PLAYER_HOMES + " WHERE uuid='"+uuid+"' AND home_name='"+home.toLowerCase()+"';";
         ResultSet dbRes = dbStat.executeQuery(sql);
 
         while (dbRes.next())

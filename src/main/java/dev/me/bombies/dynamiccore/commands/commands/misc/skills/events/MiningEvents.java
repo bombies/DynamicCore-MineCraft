@@ -6,13 +6,10 @@ import dev.me.bombies.dynamiccore.constants.GUIs;
 import dev.me.bombies.dynamiccore.constants.Tables;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,23 +21,30 @@ import java.util.*;
 
 public class MiningEvents implements Listener {
     private static Timer timer = new Timer();
-    private static List<TimerTask> tasks = new ArrayList<>();
+    private static HashMap<Player, TimerTask> playerTasks = new HashMap<>();
+    private static HashMap<Player, Integer> tempPlayerXP = new HashMap<>();
+    private static HashMap<Player, Integer> tempPlayerLevel = new HashMap<>();
     private BossBar bar = Bukkit.createBossBar(
             "nothing",
             BarColor.RED,
             BarStyle.SOLID
     );
 
-    @EventHandler (priority = EventPriority.HIGHEST)
-    public void onBlockBreak(BlockBreakEvent e) {
+    @EventHandler (priority = EventPriority.NORMAL)
+    public synchronized void onBlockBreak(BlockBreakEvent e) {
         Player player = e.getPlayer();
 
         if (!GeneralUtils.isSolidBlock(e.getBlock()))
             return;
 
+        if (!tempPlayerLevel.containsKey(player))
+            tempPlayerLevel.put(player, SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING));
 
-        int playerLevel = SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING);
-        int currentXP   = SkillsUtils.ins.getXP(player.getUniqueId(), Tables.SKILLS_MINING);
+        if (!tempPlayerXP.containsKey(player))
+            tempPlayerXP.put(player, SkillsUtils.ins.getXP(player.getUniqueId(), Tables.SKILLS_MINING));
+
+        int playerLevel = tempPlayerLevel.get(player);
+        int currentXP   = tempPlayerXP.get(player);
         int nextXP      = SkillsUtils.ins.getNextXPForLevel(GUIs.SKILLS_MINING, SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING)+1);
         int levelPerXPIncrease  = Config.getInt(Config.SKILLS_MINING_BLOCK_INCREASE_LEVEL);
         float xpIncreaseRate    = Config.getFloat(Config.SKILLS_MINING_BLOCK_INCREASE_RATE);
@@ -61,13 +65,15 @@ public class MiningEvents implements Listener {
             }
         }
 
-        SkillsUtils.ins.incrementXP(player.getUniqueId(), Tables.SKILLS_MINING);
+        tempPlayerXP.put(player, tempPlayerXP.get(player)+1);
 
         updateBossBar(player, currentXP, nextXP);
 
         if (currentXP == nextXP) {
-            SkillsUtils.ins.levelUp(player.getUniqueId(), Tables.SKILLS_MINING);
-            playerLevel = SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING);
+            tempPlayerLevel.put(player, tempPlayerLevel.get(player)+1);
+            tempPlayerXP.put(player, 0);
+
+            playerLevel = tempPlayerLevel.get(player);
 
             player.sendTitle(
                     GeneralUtils.getColoredString("&4&lMining Skill &e| &c↑" + playerLevel),
@@ -82,11 +88,9 @@ public class MiningEvents implements Listener {
         }
     }
 
-    private void updateBossBar(Player player, int currentXP, int nextXP) {
-        if (tasks.size() >= 2) {
-            cancelTask(tasks.size()-2);
-            tasks.remove(tasks.size()-2);
-        }
+    private synchronized void updateBossBar(Player player, int currentXP, int nextXP) {
+        if (playerTasks.containsKey(player))
+            playerTasks.get(player).cancel();
 
         int level = SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING)+1;
 
@@ -100,19 +104,49 @@ public class MiningEvents implements Listener {
         startNewTask(bar, player);
     }
 
-    private static void startNewTask(BossBar bar, Player player) {
+    private synchronized static void startNewTask(BossBar bar, Player player) {
+        taskRunnable(bar, player, playerTasks, timer);
+    }
+
+    protected synchronized static void taskRunnable(BossBar bar, Player player, HashMap<Player, TimerTask> playerTasks, Timer timer) {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                if (bar.getPlayers().contains(player))
+                if (bar.getPlayers().contains(player)) {
                     bar.removePlayer(player);
+                    playerTasks.remove(player);
+                }
             }
         };
         timer.schedule(task, 10000L);
-        tasks.add(task);
+        playerTasks.put(player, task);
     }
 
-    private static void cancelTask(int index) {
-        tasks.get(index).cancel();
+    public static int getXPForPlayer(Player player) {
+        if (!tempPlayerXP.containsKey(player))
+            tempPlayerXP.put(player, SkillsUtils.ins.getXP(player.getUniqueId(), Tables.SKILLS_MINING));
+        return tempPlayerXP.get(player);
+    }
+
+    public static boolean playerHasTempXPInfo(Player player) {
+        return tempPlayerXP.containsKey(player);
+    }
+
+    public static void removeXPInfoForPlayer(Player player) {
+        tempPlayerXP.remove(player);
+    }
+
+    public static int getLevelForPlayer(Player player) {
+        if (!tempPlayerLevel.containsKey(player))
+            tempPlayerLevel.put(player, SkillsUtils.ins.getPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING));
+        return tempPlayerLevel.get(player);
+    }
+
+    public static boolean playerHasTempLevelInfo(Player player) {
+        return tempPlayerLevel.containsKey(player);
+    }
+
+    public static void removeLevelInfoForPlayer(Player player) {
+        tempPlayerLevel.remove(player);
     }
 }

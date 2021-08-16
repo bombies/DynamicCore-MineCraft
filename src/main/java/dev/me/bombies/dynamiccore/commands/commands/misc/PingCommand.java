@@ -27,7 +27,7 @@ public class PingCommand implements CommandExecutor {
                 return true;
             }
 
-            p.sendMessage(Config.getPrefix() + GeneralUtils.formatString(Config.getString(Config.PING_FORMAT), target, p.getPing()));
+            p.sendMessage(Config.getPrefix() + GeneralUtils.formatString(Config.getString(Config.PING_FORMAT_OTHERS), target, target.getPing()));
         }
 
         return true;

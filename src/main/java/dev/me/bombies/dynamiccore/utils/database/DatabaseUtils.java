@@ -44,8 +44,6 @@ public class DatabaseUtils {
 
             if (!dbExists)
                 createTable(db);
-
-            System.out.println(PLUGIN.PREFIX + "Successfully made a connection to: " + db.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +63,7 @@ public class DatabaseUtils {
                 Statement statement = con.createStatement();
                 String sql = "CREATE TABLE " + Tables.PLAYER_HOMES + "(" +
                         " uuid TEXT," +
-                        " home_name TEXT UNIQUE," +
+                        " home_name TEXT," +
                         " world_name TEXT," +
                         " x_coordinate INTEGER, " +
                         " y_coordinate INTEGER, " +
@@ -101,6 +99,5 @@ public class DatabaseUtils {
     @SneakyThrows
     public void closeConnection(Databases db) {
         this.getCon().close();
-        System.out.println(PLUGIN.PREFIX + "Successfully closed connection to: "+ db.toString());
     }
 }

@@ -1,5 +1,8 @@
 package dev.me.bombies.dynamiccore.utils.guibuilder;
 
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.events.FarmingEvents;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.events.GrindingEvents;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.events.MiningEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.utils.SkillsUtils;
 import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.GUIs;
@@ -73,7 +76,7 @@ public class GUIBuilder {
     }
 
     private ItemStack buildItem(@NonNull Material material, @NonNull String itemName, boolean isEnchanted, boolean hideAttributes) {
-        GUIItem itemBuilder = new GUIItem(material, itemName);
+        ItemBuilder itemBuilder = new ItemBuilder(material, itemName);
         if (isEnchanted) {
             itemBuilder.addEnchant(Enchantment.DURABILITY, 1).hideEnchants();
         }
@@ -85,7 +88,7 @@ public class GUIBuilder {
     }
 
     private ItemStack buildItem(@NonNull Material material, @NonNull String itemName, List<String> lore, boolean isEnchanted, boolean hideAttributes) {
-        GUIItem itemBuilder = new GUIItem(material, itemName);
+        ItemBuilder itemBuilder = new ItemBuilder(material, itemName);
         itemBuilder.setLore(lore);
         if (isEnchanted) {
             itemBuilder.addEnchant(Enchantment.DURABILITY, 1).hideEnchants();
@@ -156,9 +159,17 @@ public class GUIBuilder {
         ret.add(GeneralUtils.getColoredString("&2&lPROGRESS"));
         ret.add(GeneralUtils.getColoredString("&l"));
 
-        int currentXP   = SkillsUtils.ins.getXP(player.getUniqueId(), table);
+        int currentXP   = -1;
         int maxXP       = SkillsUtils.ins.getNextXPForLevel(skill, level);
         int maxBars     = 25;
+
+        int doNothing;
+        switch (table) {
+            case SKILLS_MINING -> currentXP     = MiningEvents.getXPForPlayer(player);
+            case SKILLS_FARMING -> currentXP    = FarmingEvents.getXPForPlayer(player);
+            case SKILLS_GRINDING -> currentXP   = GrindingEvents.getXPForPlayer(player);
+            default -> doNothing = 1;
+        }
 
         switch (roadmapPaneType) {
             case ROADMAP_COMPLETE -> {
