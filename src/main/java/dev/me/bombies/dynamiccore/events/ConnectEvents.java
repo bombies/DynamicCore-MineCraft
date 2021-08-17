@@ -9,17 +9,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ConnectEvents implements Listener {
 
     @EventHandler
-    public void onPlayerDisconnect(PlayerQuitEvent e) {
+    public synchronized void onPlayerDisconnect(PlayerQuitEvent e) {
         checks(e);
     }
 
-    private void checks(PlayerEvent e) {
+    private synchronized void checks(PlayerEvent e) {
         Player player = e.getPlayer();
         if (MiningEvents.playerHasTempXPInfo(player)) {
             SkillsUtils.ins.setPlayerLevel(player.getUniqueId(), Tables.SKILLS_MINING, MiningEvents.getLevelForPlayer(player));

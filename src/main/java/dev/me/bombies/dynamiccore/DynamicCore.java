@@ -12,7 +12,7 @@ import dev.me.bombies.dynamiccore.commands.commands.misc.skills.commands.SetSkil
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.events.FarmingEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.events.GrindingEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.events.MiningEvents;
-import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guievents.MiningGUIEvents;
+import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guievents.SkillGUIEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guis.SkillsGUICommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.guievents.MainGUIEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.utils.SkillsUtils;
@@ -42,7 +42,7 @@ public final class DynamicCore extends JavaPlugin {
                 new BazookaEvents(),
                 new AnvilViewEvents(),
                 new MainGUIEvents(),
-                new MiningGUIEvents(),
+                new SkillGUIEvents(),
                 new MiningEvents(),
                 new GrindingEvents(),
                 new FarmingEvents(),
