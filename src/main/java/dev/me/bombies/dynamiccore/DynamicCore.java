@@ -74,7 +74,7 @@ public final class DynamicCore extends JavaPlugin {
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("skills").setExecutor(new SkillsGUICommand());
         getCommand("setskilllevel").setExecutor(new SetSkillLevelCommand());
-        logger.info("Loading commands loaded!");
+        logger.info("Commands loaded!");
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();

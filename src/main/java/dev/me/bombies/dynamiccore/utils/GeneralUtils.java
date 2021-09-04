@@ -20,6 +20,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,11 +32,11 @@ import java.util.List;
 
 public class GeneralUtils {
     public static boolean hasPerms(Player p, Permissions perm) {
-        return p.hasPermission(perm.toString());
+        return p.hasPermission(perm.toString()) || p.isOp();
     }
 
     public static boolean hasPerms(CommandSender s, Permissions perm) {
-        return s.hasPermission(perm.toString());
+        return s.hasPermission(perm.toString()) || s.isOp();
     }
 
     public static boolean stringIsInt(String str) {
@@ -106,6 +111,29 @@ public class GeneralUtils {
         return sb.toString();
     }
 
+    public static String getFileContent(String path) {
+        String ret = null;
+        try {
+            ret = new String(Files.readAllBytes(Paths.get(path)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (ret == null) throw new NullPointerException();
+
+        return ret.replaceAll("\t\n", "");
+    }
+
+    public static void setFileContent(String path, String content) throws IOException {
+        File file = new File(path);
+        if (!file.exists())
+            file.createNewFile();
+
+        FileWriter writer = new FileWriter(path, false);
+        writer.write(content);
+        writer.close();
+    }
+
     public static String extractPlaceHolder(String s) {
         String str = s.replaceAll("[^"+ PLUGIN.PLACEHOLDER_SYMBOL +"]", "");
 
@@ -121,6 +149,10 @@ public class GeneralUtils {
 
     public static String getColoredString(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
+    }
+
+    public static String getPrefixedString(String s) {
+        return getColoredString(PLUGIN.PREFIX.toString() + s);
     }
 
     public static String toSnakeCase(String s) {
