@@ -109,15 +109,15 @@ public class MiningEvents implements Listener {
     }
 
     private synchronized static void startNewTask(BossBar bar, Player player) {
-        taskRunnable(bar, player, playerTasks, timer);
+        taskRunnable(bar, player);
     }
 
-    protected synchronized static void taskRunnable(BossBar bar, Player player, HashMap<Player, TimerTask> playerTasks, Timer timer) {
+    protected synchronized static void taskRunnable(BossBar bar, Player player) {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
                 if (bar.getPlayers().contains(player)) {
-                    bar.removePlayer(player);
+                    bar.removeAll();
                     playerTasks.remove(player);
                 }
             }

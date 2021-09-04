@@ -10,7 +10,6 @@ import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -99,7 +98,7 @@ public class GrindingEvents implements Listener {
     }
 
     private synchronized static void startNewTask(BossBar bar, Player player) {
-        MiningEvents.taskRunnable(bar, player, playerTasks, timer);
+        MiningEvents.taskRunnable(bar, player);
     }
 
     public static synchronized int getXPForPlayer(Player player) {

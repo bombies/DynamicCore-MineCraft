@@ -6,7 +6,9 @@ import dev.me.bombies.dynamiccore.constants.PLUGIN;
 import dev.me.bombies.dynamiccore.constants.Permissions;
 import dev.me.bombies.dynamiccore.constants.materials.Ores;
 import lombok.NonNull;
+import lombok.SneakyThrows;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
@@ -220,8 +222,8 @@ public class GeneralUtils {
                     MELON, PUMPKIN, BAMBOO, COCOA_BEANS,
                     SUGAR_CANE, SWEET_BERRY_BUSH, CACTUS,
                     BROWN_MUSHROOM, RED_MUSHROOM, KELP_PLANT,
-                    SEA_PICKLE, NETHER_WART_BLOCK, CHORUS_PLANT,
-                    CRIMSON_FUNGUS, WARPED_FUNGUS, CHORUS_FLOWER
+                    SEA_PICKLE, NETHER_WART_BLOCK, CRIMSON_FUNGUS,
+                    WARPED_FUNGUS, CHORUS_FLOWER, NETHER_WART
                     -> {
                 return true;
             }
@@ -317,6 +319,61 @@ public class GeneralUtils {
             throw new IllegalArgumentException("Block passed isn't an ageable block!");
 
         return age;
+    }
+
+    /**
+     * Gets the specific crop harvest for the crop passed.
+     * @param crop
+     * @return
+     */
+    public static ArrayList<ItemStack> getHarvest(Block crop) {
+        if (!isCrop(crop))
+            throw new IllegalArgumentException("Block passed isn't a crop!");
+        // TODO
+        return new ArrayList<>();
+    }
+
+    public static int getSugarCaneHeight(Block sugarCane) {
+        if (!sugarCane.getBlockData().getMaterial().equals(Material.SUGAR_CANE))
+            throw new IllegalArgumentException("Block passed wasn't a sugar cane block!");
+
+        int height = 1, yPos = sugarCane.getY();
+
+        // Downwards check
+        for (int i = yPos-1; i > 0; i--)
+            if (new Location(sugarCane.getWorld(), sugarCane.getX(), i, sugarCane.getZ())
+                    .getBlock().getBlockData().getMaterial().equals(Material.SUGAR_CANE))
+                height++;
+            else break;
+
+        // Upwards check
+        for (int i = yPos+1; i < 256; i++)
+            if (new Location(sugarCane.getWorld(), sugarCane.getX(), i, sugarCane.getZ())
+                    .getBlock().getBlockData().getMaterial().equals(Material.SUGAR_CANE))
+                height++;
+            else break;
+
+        return height;
+    }
+
+    @SneakyThrows
+    public static Location getRootSugarCaneLocation(Block sugarCane) {
+        if (!sugarCane.getBlockData().getMaterial().equals(Material.SUGAR_CANE))
+            throw new IllegalArgumentException("Block passed wasn't a sugar cane block!");
+
+        if (getSugarCaneHeight(sugarCane) == 1)
+            return sugarCane.getLocation();
+
+        int yPos = -1;
+        for (int i = sugarCane.getY()-1; i > 0; i--)
+            if (!new Location(sugarCane.getWorld(), sugarCane.getX(), i, sugarCane.getZ())
+                    .getBlock().getBlockData().getMaterial().equals(Material.SUGAR_CANE)) {
+                yPos = i+1;
+                break;
+            }
+
+        if (yPos == -1) throw new Exception("Something went wrong! Y Position ended up as -1.");
+        return new Location(sugarCane.getWorld(), sugarCane.getX(), yPos, sugarCane.getY());
     }
 }
 
