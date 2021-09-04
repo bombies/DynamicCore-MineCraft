@@ -24,8 +24,7 @@ public class DynamicCoreCommandManager implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
+        if (sender instanceof Player p) {
 
             if (!GeneralUtils.hasPerms(p, Permissions.ADMIN)) {
                 p.sendMessage(Config.getColouredString(Config.NO_PERMISSION));
