@@ -135,10 +135,10 @@ public class GeneralUtils {
 
         int rand = new Random().nextInt(bound);
         for (int i = 0; i < size; i++) {
-            if (Arrays.binarySearch(ret, rand) < 0)
+            if (Arrays.binarySearch(ret, rand) >= 0)
                 do {
                     rand = new Random().nextInt(bound);
-                } while (Arrays.binarySearch(ret, rand) < 0);
+                } while (Arrays.binarySearch(ret, rand) >= 0);
 
             ret[i] = rand;
         }
