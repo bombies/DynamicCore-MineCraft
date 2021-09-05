@@ -1,6 +1,7 @@
 package dev.me.bombies.dynamiccore.commands.commands.misc.envoys.commands;
 
 import dev.me.bombies.dynamiccore.commands.commands.IDynamicCommand;
+import dev.me.bombies.dynamiccore.commands.commands.misc.envoys.events.EnvoySpawnEvent;
 import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.Permissions;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
@@ -29,6 +30,11 @@ public class EnvoyStopCommand implements IDynamicCommand {
             return;
         }
 
-        // TODO Envoy stop event logic
+        if (!EnvoySpawnEvent.isEnvoysSpawned())
+            player.sendMessage(GeneralUtils.getPrefixedString("There is no ongoing envoy event!"));
+        else {
+            EnvoySpawnEvent.endEvent();
+            player.sendMessage(GeneralUtils.getPrefixedString("You have ended the envoy event!"));
+        }
     }
 }

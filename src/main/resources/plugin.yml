@@ -5,6 +5,8 @@ api-version: 1.17
 prefix: DynamicCore
 authors: [ bombies ]
 description: DynamicCore made by bombies
+softdepend:
+  - HolographicDisplays
 commands:
   deathstop:
     description: The users with the top deaths on the server
@@ -63,3 +65,6 @@ commands:
   setskilllevel:
     description: Command to set the level of a skill for a user
     usage: /<command> <player> <skill> <level>
+  envoy:
+    description: Envoy command
+    usage: /<command> [subcommand] [args...]

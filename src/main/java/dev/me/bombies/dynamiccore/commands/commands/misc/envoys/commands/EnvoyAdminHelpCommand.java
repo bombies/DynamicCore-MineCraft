@@ -31,7 +31,7 @@ public class EnvoyAdminHelpCommand implements IDynamicCommand {
 
         player.sendMessage(GeneralUtils.getColoredString("&8&m-------------&r &6Envoy Admin Help &8&m--------------"));
         for (IDynamicCommand cmd : new EnvoyCommandManager().getCommands())
-            player.sendMessage("&e| &6" + cmd.getSyntax() + " &7(" + cmd.getDescription() + ")");
+            player.sendMessage(GeneralUtils.getColoredString("&e| &6" + cmd.getSyntax() + " &7(" + cmd.getDescription() + ")"));
         player.sendMessage(GeneralUtils.getColoredString("&8&m------------------------------------------"));
     }
 }

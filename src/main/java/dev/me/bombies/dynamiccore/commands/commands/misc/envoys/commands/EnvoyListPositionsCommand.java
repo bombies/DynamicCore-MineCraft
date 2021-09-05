@@ -4,7 +4,11 @@ import dev.me.bombies.dynamiccore.commands.commands.IDynamicCommand;
 import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.Permissions;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
+import dev.me.bombies.dynamiccore.utils.config.envoy.EnvoyConfig;
+import dev.me.bombies.dynamiccore.utils.plugin.Coordinates;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 public class EnvoyListPositionsCommand implements IDynamicCommand {
     @Override
@@ -19,7 +23,7 @@ public class EnvoyListPositionsCommand implements IDynamicCommand {
 
     @Override
     public String getSyntax() {
-        return "/envoy start";
+        return "/envoy listpos";
     }
 
     @Override
@@ -29,6 +33,11 @@ public class EnvoyListPositionsCommand implements IDynamicCommand {
             return;
         }
 
-        // TODO Envoy start event logic
+        EnvoyConfig config = new EnvoyConfig();
+        HashMap<Integer, Coordinates> positions = config.getHashedPositions();
+
+        positions.forEach((key, value) ->
+                player.sendMessage(GeneralUtils.getColoredString("&a" + key + " - " + value.toString()))
+        );
     }
 }

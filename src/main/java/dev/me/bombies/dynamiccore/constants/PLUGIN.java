@@ -3,7 +3,7 @@ package dev.me.bombies.dynamiccore.constants;
 public enum PLUGIN {
     NAME("DynamicCore"),
     PREFIX("["+ NAME +"] "),
-    CHAT_PREFIX("&e&l>&b&l> "),
+    CHAT_PREFIX("&e&l>&b&l>&r "),
     PLACEHOLDER_SYMBOL("%");
 
     private final String str;

@@ -4,6 +4,8 @@ import dev.me.bombies.dynamiccore.commands.commands.IDynamicCommand;
 import dev.me.bombies.dynamiccore.constants.Config;
 import dev.me.bombies.dynamiccore.constants.Permissions;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
+import dev.me.bombies.dynamiccore.utils.config.envoy.EnvoyConfig;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class EnvoySetPositionCommand implements IDynamicCommand {
@@ -29,6 +31,13 @@ public class EnvoySetPositionCommand implements IDynamicCommand {
             return;
         }
 
-        // TODO Envoy set position logic
+        Location playerLocation = player.getLocation();
+        EnvoyConfig config = new EnvoyConfig();
+        int id = config.addPosition(playerLocation);
+        player.sendMessage(GeneralUtils.getPrefixedString(
+                "&fEnvoy position added at &a" +
+                playerLocation.getBlockX() + ", " + playerLocation.getBlockY() + ", " + playerLocation.getBlockZ() +
+                " &f with id: &e" + id + "&f!"
+        ));
     }
 }

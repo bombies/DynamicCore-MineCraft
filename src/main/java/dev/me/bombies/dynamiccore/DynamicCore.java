@@ -1,8 +1,15 @@
 package dev.me.bombies.dynamiccore;
 
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import de.tr7zw.nbtinjector.NBTInjector;
 import dev.me.bombies.dynamiccore.commands.commands.misc.*;
 import dev.me.bombies.dynamiccore.commands.commands.misc.bazooka.BazookaCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.bazooka.BazookaEvents;
+import dev.me.bombies.dynamiccore.commands.commands.misc.envoys.commands.EnvoyCommandManager;
+import dev.me.bombies.dynamiccore.commands.commands.misc.envoys.events.EnvoyClickEvent;
+import dev.me.bombies.dynamiccore.commands.commands.misc.envoys.events.EnvoySpawnEvent;
+import dev.me.bombies.dynamiccore.commands.commands.misc.envoys.events.EnvoyTimerEvent;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.DeleteHomeCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.HomeCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.SetHomeCommand;
@@ -22,9 +29,11 @@ import dev.me.bombies.dynamiccore.commands.commands.utils.dynamiccoreutils.Dynam
 import dev.me.bombies.dynamiccore.constants.Tables;
 import dev.me.bombies.dynamiccore.events.*;
 import dev.me.bombies.dynamiccore.utils.plugin.PluginUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 
 public final class DynamicCore extends JavaPlugin {
@@ -33,7 +42,16 @@ public final class DynamicCore extends JavaPlugin {
     @Override
     public void onEnable() {
         logger = getLogger();
-        logger.info("Registering events!");
+
+        logger.info("Checking dependencies");
+        if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
+            logger.severe("*** HolographicDisplays is not installed or not enabled. ***");
+            logger.severe("*** This plugin will be disabled. ***");
+            this.setEnabled(false);
+            return;
+        }
+        logger.info("All dependencies available!");
+
         PluginUtils.registerEvents(this,
                 new DeathEvents(),
                 new ChatFormatEvent(),
@@ -48,7 +66,8 @@ public final class DynamicCore extends JavaPlugin {
                 new FarmingEvents(),
                 new BlazeEvents(),
                 new ReplantToolEvents(),
-                new ConnectEvents()
+                new ConnectEvents(),
+                new EnvoyClickEvent()
         );
         logger.info("Events registered!");
 
@@ -74,6 +93,7 @@ public final class DynamicCore extends JavaPlugin {
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("skills").setExecutor(new SkillsGUICommand());
         getCommand("setskilllevel").setExecutor(new SetSkillLevelCommand());
+        getCommand("envoy").setExecutor(new EnvoyCommandManager());
         logger.info("Commands loaded!");
 
         getConfig().options().copyDefaults();
@@ -82,6 +102,9 @@ public final class DynamicCore extends JavaPlugin {
         logger.info("Updating skills information");
         updateSkillInfo();
         logger.info("Skills information updated!");
+
+        new EnvoyTimerEvent();
+        logger.info("Started envoy timers!");
 
         logger.info("DynamicCore ready!");
     }
@@ -95,10 +118,16 @@ public final class DynamicCore extends JavaPlugin {
         unloadRecipes();
         updateSkillInfo();
         SkillsUtils.ins.closeConnection();
+        stopEnvoys();
     }
 
     private void unloadRecipes() {
         ReplantToolRecipe.unloadRecipe();
+    }
+
+    private void stopEnvoys() {
+        if (EnvoySpawnEvent.isEnvoysSpawned())
+            EnvoySpawnEvent.endEvent();
     }
 
     private void updateSkillInfo() {

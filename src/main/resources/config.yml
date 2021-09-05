@@ -99,6 +99,17 @@ replant_tool_lore:
   - '&areplant crops when you break them!'
   - '&8&m-------------------------------'
 
+###### Envoys ######
+silver_lore:
+  - "&7&l(!) &fRight click to claim the reward!"
+ruby_lore:
+  - "&c&l(!) &fRight click to claim the reward!"
+gold_lore:
+  - "&6&l(!) &fRight click to claim the reward!"
+platinum_lore:
+  - "&3&l(!) &fRight click to claim the reward!"
+##########################
+
 ######### PLACEHOLDERS #########
 # %player%    - The name of a player
 # %deaths%    - Total number of deaths for a player

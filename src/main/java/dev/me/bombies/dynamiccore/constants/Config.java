@@ -68,7 +68,13 @@ public enum Config {
 
     // Replant tool
     REPLANT_TOOL_NAME("replant_tool_name"),
-    REPLANT_TOOL_LORE("replant_tool_lore");
+    REPLANT_TOOL_LORE("replant_tool_lore"),
+
+    // Envoy Info
+    ENVOY_SILVER_LORE("silver_lore"),
+    ENVOY_GOLD_LORE("gold_lore"),
+    ENVOY_RUBY_LORE("ruby_lore"),
+    ENVOY_PLATINUM_LORE("platinum_lore");
 
     private final String str;
 

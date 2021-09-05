@@ -1,11 +1,9 @@
 package dev.me.bombies.dynamiccore.utils.config;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import dev.me.bombies.dynamiccore.DynamicCore;
 import dev.me.bombies.dynamiccore.constants.JSONConfigFile;
 import dev.me.bombies.dynamiccore.utils.GeneralUtils;
+import lombok.SneakyThrows;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -26,16 +24,18 @@ public abstract class JSONConfig {
      * @param file Specific JSON file to construct
      */
     public JSONConfig(JSONConfigFile file) {
+        this.file = file;
+
         try {
             if (!Files.exists(Path.of(file.toString()))) {
                 new File(file.toString()).createNewFile();
+                this.initConfig();
+            } else if (new File(file.toString()).length() == 0) {
                 this.initConfig();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        this.file = file;
     }
 
     /**
@@ -59,14 +59,9 @@ public abstract class JSONConfig {
      * Set the file content of a specific JSON configuration file
      * @param object JSONObject containing all the JSON info
      */
+    @SneakyThrows
     public void setJSON(JSONObject object) {
-        try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonElement je = JsonParser.parseString(object.toString());
-            GeneralUtils.setFileContent(file.toString(), gson.toJson(je));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            GeneralUtils.setFileContent(file.toString(), object.toString(4));
     }
 
     /**
@@ -91,6 +86,20 @@ public abstract class JSONConfig {
     }
 
     /**
+     * Check if a JSON Array has a specific object inside a JSONObject
+     * @param array Array to be searched
+     * @param field JSON field to search for in each JSONObject
+     * @param object Object to be searched for
+     * @return True if the object is found, else vice versa.
+     */
+    public boolean arrayHasObject(JSONArray array, IJSONField field, Object object) {
+        for (int i = 0; i < array.length(); i++)
+            if (array.getJSONObject(i).get(field.toString()).equals(object))
+                return true;
+        return false;
+    }
+
+    /**
      * Gets the index of a specific object in a JSON array.
      * @param array Array to be searched
      * @param object Object to search for
@@ -104,6 +113,25 @@ public abstract class JSONConfig {
 
         for (int i = 0; i < array.length(); i++)
             if (array.get(i).equals(object))
+                return i;
+        return -1;
+    }
+
+    /**
+     * Gets the index of a specific JSONObject where the object to be searched is found.
+     * @param array Array to be searched
+     * @param field JSON field to be searched for in each JSONObject
+     * @param object Object to be searched for/
+     * @return Index where the object is found. -1 Will be returned
+     *      * if some unexpected error occurs
+     * @throws NullPointerException Thrown when the object couldn't be found in the array
+     */
+    public int getIndexOfObjectInArray(JSONArray array, IJSONField field, Object object) {
+        if (!arrayHasObject(array, field, object))
+            throw new NullPointerException("There was no such object found in the array!");
+
+        for (int i = 0; i < array.length(); i++)
+            if (array.getJSONObject(i).get(field.toString()).equals(object))
                 return i;
         return -1;
     }

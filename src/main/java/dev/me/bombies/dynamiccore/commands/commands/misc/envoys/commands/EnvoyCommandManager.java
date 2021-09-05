@@ -21,6 +21,9 @@ public class EnvoyCommandManager implements CommandExecutor {
         commands.add(new EnvoyAdminHelpCommand());
         commands.add(new EnvoyStartCommand());
         commands.add(new EnvoyStopCommand());
+        commands.add(new EnvoySetPositionCommand());
+        commands.add(new EnvoyDeletePositionCommand());
+        commands.add(new EnvoyListPositionsCommand());
     }
 
     @Override
@@ -32,14 +35,18 @@ public class EnvoyCommandManager implements CommandExecutor {
 
         if (strings.length == 0) {
             // TODO Envoy Time left
-            p.sendMessage(GeneralUtils.getPrefixedString("&fThere is {time} until the next envoy."));
+            p.sendMessage(GeneralUtils.getPrefixedString("&fThere is &e{time} &funtil the next envoy."));
             return true;
         }
 
+        boolean cmdFound = false;
         for (IDynamicCommand cmd : commands)
             if (cmd.getName().equalsIgnoreCase(strings[0])) {
-                cmd.perform(p, strings);
+                cmd.perform(p, strings); cmdFound = true;
             }
+
+        if (!cmdFound)
+            p.sendMessage(GeneralUtils.getPrefixedString("&fInvalid subcommand!"));
 
         return true;
     }

@@ -7,10 +7,7 @@ import dev.me.bombies.dynamiccore.constants.Permissions;
 import dev.me.bombies.dynamiccore.constants.materials.Ores;
 import lombok.NonNull;
 import lombok.SneakyThrows;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
@@ -25,12 +22,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class GeneralUtils {
+
     public static boolean hasPerms(Player p, Permissions perm) {
         return p.hasPermission(perm.toString()) || p.isOp();
     }
@@ -134,6 +130,44 @@ public class GeneralUtils {
         writer.close();
     }
 
+    public static int[] getUniqueRandomIntegers(int bound, int size) {
+        int[] ret = new int[size];
+
+        int rand = new Random().nextInt(bound);
+        for (int i = 0; i < size; i++) {
+            if (Arrays.binarySearch(ret, rand) < 0)
+                do {
+                    rand = new Random().nextInt(bound);
+                } while (Arrays.binarySearch(ret, rand) < 0);
+
+            ret[i] = rand;
+        }
+
+        return ret;
+    }
+
+    public static <T> HashMap<Integer, T> getSortedIntMap(HashMap<Integer, T> map) {
+        return map.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldVal, newVal) -> oldVal, LinkedHashMap::new
+                ));
+    }
+
+    public static <T> HashMap<T, Double> getSortedDoubleValueMap(HashMap<T, Double> map) {
+        return map.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldVal, newVal) -> oldVal, LinkedHashMap::new
+                ));
+    }
+
     public static String extractPlaceHolder(String s) {
         String str = s.replaceAll("[^"+ PLUGIN.PLACEHOLDER_SYMBOL +"]", "");
 
@@ -151,8 +185,17 @@ public class GeneralUtils {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 
+    public static void broadcastColoredString(String string) {
+        Bukkit.broadcastMessage(GeneralUtils.getColoredString(string));
+    }
+
+    public static void broadcastColoredStrings(String... strings) {
+        for (String str : strings)
+            Bukkit.broadcastMessage(GeneralUtils.getColoredString(str));
+    }
+
     public static String getPrefixedString(String s) {
-        return getColoredString(PLUGIN.PREFIX.toString() + s);
+        return getColoredString(PLUGIN.CHAT_PREFIX + s );
     }
 
     public static String toSnakeCase(String s) {
