@@ -5,7 +5,8 @@ public enum NBTTags {
     BAZOOKA("bazooka"),
     BAZOOKA_BULLET("bazooka_bullet"),
     BAZOOKA_SHOOTER("bazooka_shooter"),
-    REPLANT_TOOL("replant_tool");
+    REPLANT_TOOL("replant_tool"),
+    ENVOY_FLARE("envoy_flare");
 
     private final String str;
 

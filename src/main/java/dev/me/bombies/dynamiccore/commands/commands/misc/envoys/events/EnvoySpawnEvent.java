@@ -33,10 +33,10 @@ public class EnvoySpawnEvent implements Runnable {
 
     @Override
     public void run() {
-        spawnEnvoys();
+        spawnEnvoys(true);
     }
 
-    public void spawnEnvoys() {
+    public void spawnEnvoys(boolean broadcastMsg) {
         EnvoyConfig config = new EnvoyConfig();
 
         List<Coordinates> coordinates = config.getRandomPositions();
@@ -70,6 +70,16 @@ public class EnvoySpawnEvent implements Runnable {
 
         spawnedLocations = coordinates;
         setEnvoysSpawned(true);
+
+        if (broadcastMsg)
+            GeneralUtils.broadcastColoredStrings(
+                    "&8&m------------------------------------------",
+                    "",
+                    "&e| &6&l"+spawnedLocations.size()+" Envoy Crates &7have been spawned",
+                    "&e|                    &7in the &eWarZone&7!",
+                    "",
+                    "&8&m------------------------------------------"
+            );
     }
 
     public static void claimEnvoy(Coordinates coordinates) {

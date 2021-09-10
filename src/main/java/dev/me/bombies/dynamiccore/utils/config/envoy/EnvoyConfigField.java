@@ -13,6 +13,8 @@ public enum EnvoyConfigField implements IJSONField {
     REWARDS("envoy_rewards"),
     INFO("envoy_info"),
     CHANCES("envoy_chances"),
+    COMMAND("command"),
+    CHANCE("chance"),
     NAMES("envoy_names"),
     TIMES("envoy_times"),
     REMINDERS("envoy_reminders"),

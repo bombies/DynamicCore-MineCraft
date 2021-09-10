@@ -3,7 +3,9 @@ package dev.me.bombies.dynamiccore.utils.guibuilder;
 import de.tr7zw.nbtapi.NBTItem;
 import dev.me.bombies.dynamiccore.constants.NBTTags;
 import org.bukkit.Material;
+import org.bukkit.block.TileState;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -62,6 +64,11 @@ public class ItemBuilder {
      */
     public ItemBuilder addEnchant(Enchantment enchantment, int level) {
         item.addUnsafeEnchantment(enchantment, level);
+        return this;
+    }
+
+    public ItemBuilder removeEnchants(Enchantment enchantment) {
+        item.removeEnchantment(enchantment);
         return this;
     }
 
@@ -126,6 +133,25 @@ public class ItemBuilder {
         itemNbt.removeKey(tag.toString());
         item = itemNbt.getItem();
         return this;
+    }
+
+    public ItemBuilder setGlowing(boolean value) {
+        if (value) {
+            addEnchant(Enchantment.DURABILITY, 1);
+            hideAttributes();
+            hideEnchants();
+        } else {
+            if (!isGlowing())
+                throw new IllegalArgumentException("This item isn't glowing!");
+
+            for (Enchantment enchant : item.getEnchantments().keySet())
+                removeEnchants(enchant);
+        }
+        return this;
+    }
+
+    public boolean isGlowing() {
+        return !item.getEnchantments().isEmpty();
     }
 
     /**

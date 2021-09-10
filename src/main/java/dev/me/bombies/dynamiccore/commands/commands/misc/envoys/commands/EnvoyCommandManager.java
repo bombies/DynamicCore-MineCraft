@@ -24,6 +24,7 @@ public class EnvoyCommandManager implements CommandExecutor {
         commands.add(new EnvoySetPositionCommand());
         commands.add(new EnvoyDeletePositionCommand());
         commands.add(new EnvoyListPositionsCommand());
+        commands.add(new EnvoyFlareGiveCommand());
     }
 
     @Override
@@ -42,7 +43,7 @@ public class EnvoyCommandManager implements CommandExecutor {
         boolean cmdFound = false;
         for (IDynamicCommand cmd : commands)
             if (cmd.getName().equalsIgnoreCase(strings[0])) {
-                cmd.perform(p, strings); cmdFound = true;
+                cmd.perform(p, strings); cmdFound = true; break;
             }
 
         if (!cmdFound)

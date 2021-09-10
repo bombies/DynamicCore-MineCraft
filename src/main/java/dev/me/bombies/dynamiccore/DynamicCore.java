@@ -8,6 +8,7 @@ import dev.me.bombies.dynamiccore.commands.commands.misc.bazooka.BazookaCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.bazooka.BazookaEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.envoys.commands.EnvoyCommandManager;
 import dev.me.bombies.dynamiccore.commands.commands.misc.envoys.events.EnvoyClickEvent;
+import dev.me.bombies.dynamiccore.commands.commands.misc.envoys.events.EnvoyFlareEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.envoys.events.EnvoySpawnEvent;
 import dev.me.bombies.dynamiccore.commands.commands.misc.envoys.events.EnvoyTimerEvent;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.DeleteHomeCommand;
@@ -67,7 +68,8 @@ public final class DynamicCore extends JavaPlugin {
                 new BlazeEvents(),
                 new ReplantToolEvents(),
                 new ConnectEvents(),
-                new EnvoyClickEvent()
+                new EnvoyClickEvent(),
+                new EnvoyFlareEvents()
         );
         logger.info("Events registered!");
 

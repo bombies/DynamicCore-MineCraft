@@ -10,6 +10,7 @@ import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -84,7 +85,7 @@ public class EnvoyConfig extends JSONConfig {
      * @param envoy Envoy to add the reward to
      * @param reward Command to be run as the reward
      */
-    public void addReward(EnvoyConfigField envoy, String reward) {
+    public void addReward(EnvoyConfigField envoy, String reward, double chance) {
         if (!isEnvoyType(envoy))
             throw new IllegalArgumentException("The field passed is invalid!");
 
@@ -92,7 +93,10 @@ public class EnvoyConfig extends JSONConfig {
         JSONArray rewardsArr = obj.getJSONObject(EnvoyConfigField.REWARDS.toString())
                 .getJSONArray(envoy.toString());
 
-        rewardsArr.put(reward.toLowerCase());
+        JSONObject rewardObj = new JSONObject();
+        rewardObj.put(EnvoyConfigField.COMMAND.toString(), reward.toLowerCase());
+        rewardObj.put(EnvoyConfigField.CHANCE.toString(), chance);
+        rewardsArr.put(rewardObj);
 
         setJSON(obj);
     }
@@ -110,10 +114,10 @@ public class EnvoyConfig extends JSONConfig {
         JSONArray rewardsArr = obj.getJSONObject(EnvoyConfigField.REWARDS.toString())
                 .getJSONArray(envoy.toString());
 
-        if (!arrayHasObject(rewardsArr, reward.toLowerCase()))
+        if (!arrayHasObject(rewardsArr, EnvoyConfigField.COMMAND, reward.toLowerCase()))
             throw new NullPointerException("There was no reward \""+reward+"\" found for this envoy!");
 
-        rewardsArr.remove(getIndexOfObjectInArray(rewardsArr, reward));
+        rewardsArr.remove(getIndexOfObjectInArray(rewardsArr, EnvoyConfigField.COMMAND, reward));
         setJSON(obj);
     }
 
@@ -122,7 +126,7 @@ public class EnvoyConfig extends JSONConfig {
      * @param envoy Envoy to get the reward for
      * @return List of strings containing the commands to be run as rewards for the specific envoy
      */
-    public List<String> getRewards(EnvoyConfigField envoy) {
+    public HashMap<Double, String> getRewards(EnvoyConfigField envoy) {
         if (!isEnvoyType(envoy))
             throw new IllegalArgumentException("The field passed is invalid!");
 
@@ -130,24 +134,49 @@ public class EnvoyConfig extends JSONConfig {
         JSONArray rewardsArr = obj.getJSONObject(EnvoyConfigField.REWARDS.toString())
                 .getJSONArray(envoy.toString());
 
-        List<String> rewards = new ArrayList<>();
+        HashMap<Double, String> rewards = new HashMap<>();
 
-        for (int i = 0; i < rewardsArr.length(); i++)
-            rewards.add(rewardsArr.getString(i));
+        for (int i = 0; i < rewardsArr.length(); i++) {
+            JSONObject rewardObj = rewardsArr.getJSONObject(i);
+            rewards.put(
+                    rewardObj.getDouble(EnvoyConfigField.CHANCE.toString()),
+                    rewardObj.getString(EnvoyConfigField.COMMAND.toString())
+            );
+        }
 
         return rewards;
     }
 
+    /**
+     * Get a random reward based off the chance provided in the JSON file.
+     * @param envoyType Envoy type to get the rewards from
+     * @return A reward selected by corresponding weighted chance
+     */
     public String getRandomReward(String envoyType) {
         if (!isEnvoyType(envoyType))
             throw new IllegalArgumentException("The envoy type passed is invalid!");
 
-        List<String> rewards = getRewards(EnvoyConfigField.parseEnvoyType(envoyType));
+        HashMap<Double, String> rewards = getRewards(EnvoyConfigField.parseEnvoyType(envoyType));
 
         if (rewards.isEmpty())
             throw new NullPointerException("There are no rewards!");
 
-        return rewards.get(new Random().nextInt(rewards.size()));
+        NavigableMap<Double, String> navigableMap = new TreeMap<>();
+
+        double selected = Math.random();
+
+        AtomicDouble total = new AtomicDouble();
+        rewards.forEach((k, v) -> {
+            total.addAndGet(k);
+            navigableMap.put(total.get(), v);
+        });
+
+        return navigableMap.higherEntry(selected * total.get())
+                .getValue();
+    }
+
+    public String parseReward(Player player, String reward) {
+        return reward.replace("{name}", player.getName()).replaceFirst("/", "");
     }
 
     /**

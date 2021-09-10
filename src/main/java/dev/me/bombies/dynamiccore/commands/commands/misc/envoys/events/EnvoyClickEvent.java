@@ -39,7 +39,8 @@ public class EnvoyClickEvent implements Listener {
             EnvoyConfig config = new EnvoyConfig();
 
             try {
-                String reward = config.getRandomReward(type);
+                String reward = config.parseReward(e.getPlayer(), config.getRandomReward(type));
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), reward);
             } catch (NullPointerException exception) {
                 DynamicCore.logger.warning("[WARN] The " + type + " envoy doesn't have any rewards!");
             }

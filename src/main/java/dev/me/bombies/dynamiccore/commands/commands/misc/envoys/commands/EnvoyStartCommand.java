@@ -31,7 +31,7 @@ public class EnvoyStartCommand implements IDynamicCommand {
             return;
         }
 
-        new EnvoySpawnEvent().spawnEnvoys();
+        new EnvoySpawnEvent().spawnEnvoys(true);
         Bukkit.broadcastMessage(GeneralUtils.getPrefixedString("&lEnvoys have been spawned!"));
     }
 }

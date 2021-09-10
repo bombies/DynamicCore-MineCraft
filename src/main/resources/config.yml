@@ -108,6 +108,14 @@ gold_lore:
   - "&6&l(!) &fRight click to claim the reward!"
 platinum_lore:
   - "&3&l(!) &fRight click to claim the reward!"
+
+envoy_flare_name:
+  - "&c&lEnvoy Flare"
+envoy_flare_lore:
+  - '&8&m-------------------------------'
+  - '&c&l◌ &fThis flare will forcefully spawn'
+  - '&fenvoys in the warzone!'
+  - '&8&m-------------------------------'
 ##########################
 
 ######### PLACEHOLDERS #########

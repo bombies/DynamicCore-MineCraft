@@ -74,7 +74,9 @@ public enum Config {
     ENVOY_SILVER_LORE("silver_lore"),
     ENVOY_GOLD_LORE("gold_lore"),
     ENVOY_RUBY_LORE("ruby_lore"),
-    ENVOY_PLATINUM_LORE("platinum_lore");
+    ENVOY_PLATINUM_LORE("platinum_lore"),
+    ENVOY_FLARE_NAME("envoy_flare_name"),
+    ENVOY_FLARE_LORE("envoy_flare_lore");
 
     private final String str;
 
