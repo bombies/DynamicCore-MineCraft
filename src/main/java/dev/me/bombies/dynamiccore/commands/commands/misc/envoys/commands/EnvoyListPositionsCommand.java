@@ -41,6 +41,11 @@ public class EnvoyListPositionsCommand implements IDynamicCommand {
         EnvoyConfig config = new EnvoyConfig();
         HashMap<Integer, Coordinates> positions = config.getHashedPositions();
 
+        if (positions.isEmpty()) {
+            player.sendMessage(ChatColor.RED + "There are no locations set for envoys!");
+            return;
+        }
+
         positions.forEach((key, value) -> {
             TextComponent positionMsg = new TextComponent(key + " - " + value.toString());
             positionMsg.setColor(ChatColor.GREEN);

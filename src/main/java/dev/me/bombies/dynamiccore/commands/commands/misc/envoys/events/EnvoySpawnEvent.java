@@ -40,6 +40,10 @@ public class EnvoySpawnEvent implements Runnable {
         EnvoyConfig config = new EnvoyConfig();
 
         List<Coordinates> coordinates = config.getRandomPositions();
+
+        if (coordinates.isEmpty())
+            throw new NullPointerException("There are no envoys to be spawned!");
+
         World envoyWorld = Bukkit.getWorld(config.getWorldString());
 
         for (Coordinates coordinate : coordinates) {
