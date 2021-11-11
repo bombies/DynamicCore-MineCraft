@@ -2,6 +2,7 @@ package dev.me.bombies.dynamiccore.utils.guibuilder;
 
 import de.tr7zw.nbtapi.NBTItem;
 import dev.me.bombies.dynamiccore.constants.NBTTags;
+import dev.me.bombies.dynamiccore.utils.GeneralUtils;
 import org.bukkit.Material;
 import org.bukkit.block.TileState;
 import org.bukkit.enchantments.Enchantment;
@@ -31,7 +32,7 @@ public class ItemBuilder {
     public ItemBuilder(Material material, String name) {
         item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(name);
+        meta.setDisplayName(GeneralUtils.getColoredString(name));
         item.setItemMeta(meta);
     }
 
@@ -41,9 +42,13 @@ public class ItemBuilder {
      */
     public ItemBuilder setName(String name) {
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(name);
+        meta.setDisplayName(GeneralUtils.getColoredString(name));
         item.setItemMeta(meta);
         return this;
+    }
+
+    public String getName() {
+        return item.getItemMeta().getDisplayName();
     }
 
     /**
@@ -55,6 +60,10 @@ public class ItemBuilder {
         meta.setLore(lore);
         item.setItemMeta(meta);
         return this;
+    }
+
+    public List<String> getLore() {
+        return this.item.getItemMeta().getLore();
     }
 
     /**
@@ -137,9 +146,11 @@ public class ItemBuilder {
 
     public ItemBuilder setGlowing(boolean value) {
         if (value) {
-            addEnchant(Enchantment.DURABILITY, 1);
-            hideAttributes();
-            hideEnchants();
+            if (!isGlowing()) {
+                addEnchant(Enchantment.DURABILITY, 1);
+                hideAttributes();
+                hideEnchants();
+            }
         } else {
             if (!isGlowing())
                 throw new IllegalArgumentException("This item isn't glowing!");

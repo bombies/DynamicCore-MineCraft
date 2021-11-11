@@ -5,6 +5,7 @@ api-version: 1.17
 prefix: DynamicCore
 authors: [ bombies ]
 description: DynamicCore made by bombies
+depend: [ ProtocolLib ]
 softdepend:
   - HolographicDisplays
 commands:
@@ -68,3 +69,7 @@ commands:
   envoy:
     description: Envoy command
     usage: /<command> [subcommand] [args...]
+  spawnicecreamman:
+    description: Spawn the icecream man for the linear search implementation
+    usage: /<command>
+    aliases: [sicm]

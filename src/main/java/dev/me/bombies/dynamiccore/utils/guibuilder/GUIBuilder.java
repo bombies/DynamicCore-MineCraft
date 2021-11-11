@@ -25,9 +25,6 @@ public class GUIBuilder {
     private boolean addPlaceholders;
 
     public GUIBuilder(@NonNull Player player, String name, @NonNull int size, boolean addPlaceholders) {
-        if (player == null)
-            throw new NullPointerException("Player can't be null!");
-
         if (size % 9 != 0 || size <= 0)
             throw new IllegalArgumentException("Invalid size!");
 
@@ -77,9 +74,8 @@ public class GUIBuilder {
 
     private ItemStack buildItem(@NonNull Material material, @NonNull String itemName, boolean isEnchanted, boolean hideAttributes) {
         ItemBuilder itemBuilder = new ItemBuilder(material, itemName);
-        if (isEnchanted) {
+        if (isEnchanted)
             itemBuilder.addEnchant(Enchantment.DURABILITY, 1).hideEnchants();
-        }
 
         if (hideAttributes)
             itemBuilder.hideAttributes();

@@ -185,6 +185,13 @@ public class GeneralUtils {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 
+    public static List<String> getColoredLore(String... strings) {
+        List<String> lore = new ArrayList<>();
+        for (String s : strings)
+            lore.add(getColoredString(s));
+        return lore;
+    }
+
     public static void broadcastColoredString(String string) {
         Bukkit.broadcastMessage(GeneralUtils.getColoredString(string));
     }

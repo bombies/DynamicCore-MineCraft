@@ -1,5 +1,7 @@
 package dev.me.bombies.dynamiccore;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import de.tr7zw.nbtinjector.NBTInjector;
@@ -14,6 +16,9 @@ import dev.me.bombies.dynamiccore.commands.commands.misc.envoys.events.EnvoyTime
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.DeleteHomeCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.HomeCommand;
 import dev.me.bombies.dynamiccore.commands.commands.misc.homes.SetHomeCommand;
+import dev.me.bombies.dynamiccore.commands.commands.misc.personal.project1.IceCreamGUIEvents;
+import dev.me.bombies.dynamiccore.commands.commands.misc.personal.project1.IceCreamSearchCommand;
+import dev.me.bombies.dynamiccore.commands.commands.misc.personal.project1.IceCreamSearchEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.replanttool.ReplantToolEvents;
 import dev.me.bombies.dynamiccore.commands.commands.misc.replanttool.ReplantToolRecipe;
 import dev.me.bombies.dynamiccore.commands.commands.misc.skills.commands.SetSkillLevelCommand;
@@ -30,6 +35,8 @@ import dev.me.bombies.dynamiccore.commands.commands.utils.dynamiccoreutils.Dynam
 import dev.me.bombies.dynamiccore.constants.Tables;
 import dev.me.bombies.dynamiccore.events.*;
 import dev.me.bombies.dynamiccore.utils.plugin.PluginUtils;
+import dev.me.bombies.dynamiccore.utils.signgui.SignGUI;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,6 +46,10 @@ import java.util.logging.Logger;
 
 public final class DynamicCore extends JavaPlugin {
     public static Logger logger;
+    @Getter
+    private static SignGUI signGUI;
+    @Getter
+    private static ProtocolManager protocolManager;
 
     @Override
     public void onEnable() {
@@ -69,7 +80,9 @@ public final class DynamicCore extends JavaPlugin {
                 new ReplantToolEvents(),
                 new ConnectEvents(),
                 new EnvoyClickEvent(),
-                new EnvoyFlareEvents()
+                new EnvoyFlareEvents(),
+                new IceCreamSearchEvents(),
+                new IceCreamGUIEvents()
         );
         logger.info("Events registered!");
 
@@ -96,6 +109,7 @@ public final class DynamicCore extends JavaPlugin {
         getCommand("skills").setExecutor(new SkillsGUICommand());
         getCommand("setskilllevel").setExecutor(new SetSkillLevelCommand());
         getCommand("envoy").setExecutor(new EnvoyCommandManager());
+        getCommand("spawnicecreamman").setExecutor(new IceCreamSearchCommand());
         logger.info("Commands loaded!");
 
         getConfig().options().copyDefaults();
@@ -107,6 +121,9 @@ public final class DynamicCore extends JavaPlugin {
 
         new EnvoyTimerEvent();
         logger.info("Started envoy timers!");
+
+        protocolManager = ProtocolLibrary.getProtocolManager();
+        signGUI = new SignGUI(this);
 
         logger.info("DynamicCore ready!");
     }
