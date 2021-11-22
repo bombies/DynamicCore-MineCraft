@@ -32,8 +32,10 @@ public class IceCreamGUIEvents implements GUIEvents {
         Material typeClicked = e.getCurrentItem().getType();
         HumanEntity player = e.getWhoClicked();
 
-        if (typeClicked == Material.SUGAR)
+        if (typeClicked == Material.SUGAR) {
+            player.closeInventory();
             openSignSearchGUI(player);
+        }
 
     }
 
