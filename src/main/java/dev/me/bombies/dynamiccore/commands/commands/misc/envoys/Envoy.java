@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.util.List;
 import java.util.Random;
 
+// Ah, memories...
 public class Envoy {
     @Getter
     private String name;
